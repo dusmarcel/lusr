@@ -1,1 +1,1 @@
-pub const PERSONS: u32 = 1;
+pub const ADULTS: u32 = 1;

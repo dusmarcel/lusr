@@ -6,7 +6,7 @@ use crate::defaults;
 
 #[component]
 pub fn Needs(
-    p: Memo<Option<u32>>
+    a: Memo<Option<u32>>
 ) -> impl IntoView {
 
     view! {
@@ -15,7 +15,7 @@ pub fn Needs(
                 "Bedarfe"
             </h2>
             <p>
-                "Anzahl Personen: " { move || p.get().unwrap_or(defaults::PERSONS) }
+                "Anzahl Personen: " { move || a.get().unwrap_or(defaults::ADULTS) }
             </p>
         </div>
     }

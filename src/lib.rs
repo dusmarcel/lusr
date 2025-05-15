@@ -12,15 +12,18 @@ use crate::components::{
 
 #[component]
 pub fn LUSR() -> impl IntoView {
-    let (p, set_p) = query_signal_with_options::<u32>(
-        "p",
+    // adult person(s) in the community (Bedarfsgemeinschaft)
+    // should only be 1 (default) or 2
+    let (a, set_a) = query_signal_with_options::<u32>(
+        "a",
         NavigateOptions { resolve: true, replace: false, scroll: false, state: State::new(None) }
     );
+    if a.get().unwrap_or(defaults::ADULTS) != 1 && a.get().unwrap_or(defaults::ADULTS) != 2 { set_a.set(Some(defaults::ADULTS)); }
 
     view! {
         <Intro />
-        <Community p=p set_p=set_p />
-        <Needs p=p />
+        <Community a=a set_a=set_a />
+        <Needs a=a />
         <Notes />
     }
 }

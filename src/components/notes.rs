@@ -20,7 +20,7 @@ pub fn Notes() -> impl IntoView {
             </p>
             <p>
                 "Der Rechner ist zudem auch als Freie Software unter den Lizenzen Apache, Version 2.0, und MIT
-                veröffentlicht. Du kannst dir die Software also auch aus dem "<a class="text-blue-600 hover:underline hover:text-violet-600" href="https://github.com/dusmarcel/mpkr25">
+                veröffentlicht. Du kannst dir die Software also auch aus dem "<a class="text-blue-600 hover:underline hover:text-violet-600" href="https://github.com/dusmarcel/lusr">
                 "Repository"</a>" herunterladen und sie dann ganz auf einem Gerät deiner Wahl ausführen.
                 In diesem Falle hast du mit meinem Server gar nichts mehr zu tun, und die Notwendigkeit, Daten an meinen
                 Server zu übertragen, entfällt ganz."
