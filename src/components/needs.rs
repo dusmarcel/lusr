@@ -20,6 +20,7 @@ pub fn Needs(
     u18: Memo<Option<u32>>,
     u14: Memo<Option<u32>>,
     u6: Memo<Option<u32>>,
+    r: Memo<Option<f64>>,
     sn: Memo<f64>
 ) -> impl IntoView {
 
@@ -87,6 +88,13 @@ pub fn Needs(
                     </td>
                     <td class="px-1 text-right">
                         { move || format_euro(u6.get().unwrap_or(defaults::U6) as f64 * U6) }
+                    </td>
+                </tr>
+                <tr>
+                    <td class="px-1">"Miete inkl. Betriebskosten:"</td>
+                    <td class="px-1"></td>
+                    <td class="px-1 text-right">
+                        { move || format_euro(r.get().unwrap_or(defaults::RENT)) }
                     </td>
                 </tr>
                 <tr class="font-semibold">

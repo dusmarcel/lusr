@@ -47,6 +47,12 @@ pub fn LUSR() -> impl IntoView {
         "u6",
         NavigateOptions { resolve: true, replace: false, scroll: false, state: State::new(None) }
     );
+
+    // the rent (Miete)
+    let (r, set_r) = query_signal_with_options::<f64>
+        ("r",
+        NavigateOptions { resolve: true, replace: false, scroll: false, state: State::new(None) }
+    );
     
     // Calculate the sum of the Needs (Bedarfe)
     let sn = Memo::new(move |_| {
@@ -60,13 +66,14 @@ pub fn LUSR() -> impl IntoView {
         summe += u18.get().unwrap_or(defaults::U18) as f64 * U18;
         summe += u14.get().unwrap_or(defaults::U14) as f64 * U14;
         summe += u6.get().unwrap_or(defaults::U6) as f64 * U6;
+        summe += r.get().unwrap_or(defaults::RENT);
         summe
     });
 
     view! {
         <Intro />
-        <Community a=a set_a=set_a u25=u25 set_u25=set_u25 u18=u18 set_u18=set_u18 u14=u14 set_u14=set_u14 u6=u6 set_u6=set_u6 />
-        <Needs a=a u25=u25 u18=u18 u14=u14 u6=u6 sn=sn />
+        <Community a=a set_a=set_a u25=u25 set_u25=set_u25 u18=u18 set_u18=set_u18 u14=u14 set_u14=set_u14 u6=u6 set_u6=set_u6 r=r set_r=set_r />
+        <Needs a=a u25=u25 u18=u18 u14=u14 u6=u6 r=r sn=sn />
         <Notes />
     }
 }
