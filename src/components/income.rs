@@ -18,7 +18,8 @@ pub fn Income(
             <p>
                 "Dem ermittelten Bedarf müssen wir jetzt das Einkommen der Bedarfsgemeinschaft gegenüberstellen."
             </p>
-            <p>"Die Bedarfsgemeinschaft besteht aus "
+            <p>
+                "Die Bedarfsgemeinschaft besteht aus "
                 { move || a.get().unwrap_or(defaults::ADULTS) }
                 " Erwachsennen und "
                 { move || c.get() }
