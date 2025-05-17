@@ -17,6 +17,8 @@ use crate::components::{
     intro::Intro,
     community::Community,
     needs::Needs,
+    income::Income,
+    result::Result,
     notes::Notes
 };
 
@@ -70,10 +72,22 @@ pub fn LUSR() -> impl IntoView {
         summe
     });
 
+    // Calculate numer of children
+    let c = Memo::new( move |_| {
+        let mut c = 0;
+        c += u25.get().unwrap_or(defaults::U25);
+        c += u18.get().unwrap_or(defaults::U18);
+        c += u14.get().unwrap_or(defaults::U14);
+        c += u6.get().unwrap_or(defaults::U6);
+        c
+    });
+
     view! {
         <Intro />
         <Community a=a set_a=set_a u25=u25 set_u25=set_u25 u18=u18 set_u18=set_u18 u14=u14 set_u14=set_u14 u6=u6 set_u6=set_u6 r=r set_r=set_r />
         <Needs a=a u25=u25 u18=u18 u14=u14 u6=u6 r=r sn=sn />
+        <Income a=a c=c />
+        <Result />
         <Notes />
     }
 }

@@ -10,6 +10,20 @@ pub fn Notes() -> impl IntoView {
                 "Rechtliche Hinweise"
             </h2>
             <p>
+                "Dieser Rechner soll die "<span class="font-semibold">"aufenthaltsrechtliche Beratung"</span>" zur Frage, ob der Lebensunterhalt im Sinne der "
+                <a class="text-blue-600 hover:underline hover:text-violet-600" href="https://dejure.org/gesetze/AufenthG/5.html">
+                "§§ 2 Abs. 3, 5 Abs. 1 Nr. 1 AufenthG"</a>" gesichert werden kann, unterstützen. Dabei kann und soll er die Beratung
+                bestenfalls begleiten, aber keinesfalls ersetzen, da es, je nach konkretem Fall, eine Vielzahl von Besonderheiten zu beachten
+                geben kann, die hier ummöglich alle abgebildet werden können."
+            </p>
+            <p>
+                "Auch ist wichtig, zu betonen, dass dieser Rechner sich als Tool für die aufenthaltsrechtliche Beratung, also für
+                die Auseinandersetzung mit der Ausländerbehörde (bzw. in entsprechenden Verfahren mit dem Verwaltungsgericht oder der
+                deutschen Auslandsvertretung), aber "<span class="font-semibold"><span class="underline">"nicht"</span>" für die sozialrechtliche Beratung"</span>" im Zusammenhang mit der Auseinandersetzung
+                mit Sozialämtern, Sozialgerichten oder Jobcentern versteht. Hierfür findet sich im Netz eine Vielzahl anderer,
+                geeigneterer Angebote in Gestalt von Bürgergeldrechnern und ähnlichen Dingen."
+            </p>
+            <p>
                 "Der Rechner geht äußerst sparsam mit deinen Daten um. Zwar werden einige technisch benötigte Daten,
                 insbesondere deine IP-Adresse, an meinen Server gesendet und von meinem Server verarbeitet. Das ist nötig,
                 um die zum Rechner gehörenden Dateien an deinen Browser oder dein sonstiges Gerät, mit welchem du den
