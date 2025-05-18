@@ -36,23 +36,23 @@ pub fn Income(
                         "Einkommen brutto:"
                     </td>
                     <td class="px-1">
-                        <input type="number" min="0.0" value=move || format_euro(adults_incomes.get()[0].brutto) class="border-2 border-stone-400 rounded-lg px-1" on:change=change_ai />
+                        <input type="number" min="0.0" value={ move || adults_incomes.get()[0].brutto } class="border-2 border-stone-400 rounded-lg px-1" on:change=change_ai />
                     </td>
                 </tr>
             </table>
-            <h3 class="text-xl font-medium">
+            <h3 class={ move || if c.get() > 0 { "text-xl font-medium" } else { "hidden" }}>
                 "Einkommen der Kinder"
             </h3>
-            <table>
+            <table class={ move || if c.get() > 0 { "visible" } else { "hidden" }}>
                 <tr>
                     <td class="px-1">
                         "Einkommen brutto:"
                     </td>
                     <td class="px-1">
-                        <input type="number" min="0.0" value=move || format_euro(children_incomes.get()[0].brutto) class="border-2 border-stone-400 rounded-lg px-1" on:change=change_ci />
+                        <input type="number" min="0.0" value={ move || children_incomes.get()[0].brutto } class="border-2 border-stone-400 rounded-lg px-1" on:change=change_ci />
                     </td>
                 </tr>
-            </table>            
+            </table>
         </div>
     }
 }
