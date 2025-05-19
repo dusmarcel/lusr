@@ -1,6 +1,9 @@
 use leptos::prelude::*;
 
-use crate::defaults;
+use crate::{
+    utils::format_euro,
+    defaults
+};
 
 // Bedarfsgemeinschaft
 
@@ -77,19 +80,19 @@ pub fn Community(
                 <label for="rent">"Miete inkl. Betriebskosten:"</label>
             </p>
             <p>
-                <input type="number" id="rent" min="0.0" value=move || r.get().unwrap_or(defaults::RENT) class="border-2 border-stone-400 rounded-lg px-1" on:change=change_rent />
+                <input type="text" id="rent" min="0.0" class="border-2 border-stone-400 rounded-lg px-1" value=move || format_euro(r.get().unwrap_or(defaults::RENT)) on:change=change_rent prop:value=move || format_euro(r.get().unwrap_or(defaults::RENT)) />
             </p>
             <p>
                 <label for="hi">"Krankenversicherungskosten für private oder freiwillige gesetzliche Krankenversicherung. Soweit Personen im Rahmen ihrer Erwerbstätigkeit gesetzlich pflichtversichert sind, sind hier keine Kosten anzugeben:"</label>
             </p>
             <p>
-                <input type="number" id="hi" min="0.0" value=move || hi.get().unwrap_or(defaults::HI) class="border-2 border-stone-400 rounded-lg px-1" on:change=change_hi />
+                <input type="text" id="hi" min="0.0" class="border-2 border-stone-400 rounded-lg px-1" value=move || format_euro(hi.get().unwrap_or(defaults::HI)) on:change=change_hi prop:value=move || format_euro(hi.get().unwrap_or(defaults::HI)) />
             </p>
             <p>
                 <label for="cm">"Unterhaltsverpflichtungen für nicht in der Bedarfsgemeinschaft lebende Personen:"</label>
             </p>
             <p>
-                <input type="number" id="cm" min="0.0" value=move || cm.get().unwrap_or(defaults::CM) class="border-2 border-stone-400 rounded-lg px-1" on:change=change_cm />
+                <input type="text" id="cm" min="0.0" class="border-2 border-stone-400 rounded-lg px-1" value=move || format_euro(cm.get().unwrap_or(defaults::CM)) on:change=change_cm prop:value=move || format_euro(cm.get().unwrap_or(defaults::CM)) />
             </p>
         </div>
     }

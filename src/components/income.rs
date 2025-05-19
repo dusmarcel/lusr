@@ -1,7 +1,7 @@
 use leptos::prelude::*;
 
 use crate::{
-    // utils::format_euro,
+    utils::format_euro,
     defaults,
     incomes::{
         adults::{adults_incomes_to_string, AdultIncome},
@@ -38,10 +38,10 @@ pub fn Income(
                         "Einkommen brutto:"
                     </td>
                     <td class="px-1">
-                        <input type="number" min="0.0" value={ move || adults_incomes.get()[0].brutto } class="border-2 border-stone-400 rounded-lg px-1" on:change=change_ai />
+                        <input type="text" min="0.0" value={ move || format_euro(adults_incomes.get()[0].brutto) } class="border-2 border-stone-400 rounded-lg px-1" on:change=change_ai />
                     </td>
                     <td class={ move || if couple.get() { "px-1" } else { "hidden" }}>
-                        <input type="number" min="0.0" value={ move || adults_incomes.get()[0].brutto } class="border-2 border-stone-400 rounded-lg px-1" on:change=change_ai />
+                        <input type="text" min="0.0" value={ move || format_euro(adults_incomes.get()[0].brutto) } class="border-2 border-stone-400 rounded-lg px-1" on:change=change_ai />
                     </td>
                 </tr>
                 <tr>
@@ -49,10 +49,10 @@ pub fn Income(
                         "Einkommen netto:"
                     </td>
                     <td class="px-1">
-                        <input type="number" min="0.0" value={ move || adults_incomes.get()[0].netto } class="border-2 border-stone-400 rounded-lg px-1" on:change=change_ai />
+                        <input type="text" min="0.0" value={ move || format_euro(adults_incomes.get()[0].netto) } class="border-2 border-stone-400 rounded-lg px-1" on:change=change_ai />
                     </td>
                     <td class={ move || if couple.get() { "px-1" } else { "hidden" }}>
-                        <input type="number" min="0.0" value={ move || adults_incomes.get()[0].netto } class="border-2 border-stone-400 rounded-lg px-1" on:change=change_ai />
+                        <input type="text" min="0.0" value={ move || format_euro(adults_incomes.get()[0].netto) } class="border-2 border-stone-400 rounded-lg px-1" on:change=change_ai />
                     </td>
                 </tr>
             </table>
@@ -65,7 +65,7 @@ pub fn Income(
                         "Einkommen brutto:"
                     </td>
                     <td class="px-1">
-                        <input type="number" min="0.0" value={ move || children_incomes.get()[0].brutto } class="border-2 border-stone-400 rounded-lg px-1" on:change=change_ci />
+                        <input type="text" min="0.0" value={ move || format_euro(children_incomes.get()[0].brutto) } class="border-2 border-stone-400 rounded-lg px-1" on:change=change_ci />
                     </td>
                 </tr>
             </table>
