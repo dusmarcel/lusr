@@ -1,10 +1,11 @@
 use leptos::prelude::*;
 
 use crate::{
-    utils::format_euro,
+    // utils::format_euro,
+    defaults,
     incomes::{
-        adults::{AdultIncome, adults_incomes_to_string},
-        children::{ChildIncome, children_incomes_to_string}
+        adults::{adults_incomes_to_string, AdultIncome},
+        children::{children_incomes_to_string, ChildIncome}
     }
 };
 
@@ -19,6 +20,7 @@ pub fn Income(
     children_incomes: Memo<Vec<ChildIncome>>,
     set_ci: SignalSetter<Option<String>>
 ) -> impl IntoView {
+    let couple = Memo::new(move |_| a.get().unwrap_or(defaults::ADULTS) == 2);
     let change_ai = move |e| set_ai.set(Some(adults_incomes_to_string(&adults_incomes.get())));
     let change_ci = move |e| set_ci.set(Some(children_incomes_to_string(&children_incomes.get())));
 
@@ -37,6 +39,20 @@ pub fn Income(
                     </td>
                     <td class="px-1">
                         <input type="number" min="0.0" value={ move || adults_incomes.get()[0].brutto } class="border-2 border-stone-400 rounded-lg px-1" on:change=change_ai />
+                    </td>
+                    <td class={ move || if couple.get() { "px-1" } else { "hidden" }}>
+                        <input type="number" min="0.0" value={ move || adults_incomes.get()[0].brutto } class="border-2 border-stone-400 rounded-lg px-1" on:change=change_ai />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="px-1">
+                        "Einkommen netto:"
+                    </td>
+                    <td class="px-1">
+                        <input type="number" min="0.0" value={ move || adults_incomes.get()[0].netto } class="border-2 border-stone-400 rounded-lg px-1" on:change=change_ai />
+                    </td>
+                    <td class={ move || if couple.get() { "px-1" } else { "hidden" }}>
+                        <input type="number" min="0.0" value={ move || adults_incomes.get()[0].netto } class="border-2 border-stone-400 rounded-lg px-1" on:change=change_ai />
                     </td>
                 </tr>
             </table>
