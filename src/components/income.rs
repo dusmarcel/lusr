@@ -2,12 +2,10 @@ use leptos::prelude::*;
 //use leptos::web_sys::console;
 
 use crate::{
-    utils::format_euro,
-    defaults,
-    incomes::{
+    defaults, incomes::{
         adults::{erwachsene_einkommen_to_string, ErwachsenEinkommen},
         children::{kinder_einkommen_to_string, KindEinkommen}
-    }
+    }, utils::{anr_einkommen, format_euro}
 };
 
 // Einkommen
@@ -118,30 +116,18 @@ pub fn Income(
                     <td class="px-1">
                         "Anrechenbares Einkommen:"
                     </td>
-                    <td class="px-1">
-                        <input type="text" min="0.0" class="px-1 border-2 border-stone-400 rounded-lg text-right" value={ move || format_euro(erwachsene_einkommen.get()[0].netto) } prop:value={ move || format_euro(erwachsene_einkommen.get()[0].netto) } on:change=change_ee0_netto />
+                    <td class="px-1 text-right">
+                        //<input type="text" min="0.0" class="px-1 border-2 border-stone-400 rounded-lg text-right" value={ move || format_euro(erwachsene_einkommen.get()[0].netto) } prop:value={ move || format_euro(erwachsene_einkommen.get()[0].netto) } on:change=change_ee0_netto />
+                        { move || format_euro(anr_einkommen(erwachsene_einkommen.get()[0].netto))}
                     </td>
-                    <td class={ move || if couple.get() { "visible" } else { "hidden" }}>
-                        <input 
-                            type="text"
-                            min="0.0"
-                            class="px-1 border-2 border-stone-400 rounded-lg text-right"
-                            value={
-                                move || if let Some(ee) = erwachsene_einkommen.get().get(1) {
-                                    format_euro(ee.netto)
-                                } else {
-                                    format_euro(0.0)
-                                }
+                    <td class={ move || if couple.get() { "visible px-1 text-right" } else { "hidden" }}>
+                        {
+                            move || if let Some(ee) = erwachsene_einkommen.get().get(1) {
+                                format_euro(anr_einkommen(ee.netto))
+                            } else {
+                                format_euro(0.0)
                             }
-                            prop:value={
-                                move || if let Some(ai) = erwachsene_einkommen.get().get(1) {
-                                    format_euro(ai.netto)
-                                } else {
-                                    format_euro(0.0)
-                                }                                
-                            }
-                            on:change=change_ee1_netto
-                        />
+                        }
                     </td>
                 </tr>
             </table>

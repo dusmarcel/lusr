@@ -15,6 +15,10 @@ pub fn format_euro(value: f64) -> String {
     .get()
 }
 
-pub fn rec_income(netto: f64) -> f64 {
-    netto - WERBUNGSKOSTENPAUSCHALE as f64
+pub fn anr_einkommen(netto: f64) -> f64 {
+    let mut ae = netto - WERBUNGSKOSTENPAUSCHALE as f64;
+    if ae < 0.0 {
+        ae = 0.0;
+    }
+    ae
 }
