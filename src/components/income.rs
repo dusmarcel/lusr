@@ -17,7 +17,8 @@ pub fn Income(
     erwachsene_einkommen: Memo<Vec<ErwachsenEinkommen>>,
     set_ee: SignalSetter<Option<String>>,
     kinder_einkommen: Memo<Vec<KindEinkommen>>,
-    set_ke: SignalSetter<Option<String>>
+    set_ke: SignalSetter<Option<String>>,
+    set_ae: WriteSignal<f64>
 ) -> impl IntoView {
     let couple = Memo::new(move |_| e.get().unwrap_or(defaults::ERWACHSENE) == 2);
 
@@ -42,6 +43,15 @@ pub fn Income(
         set_ee.set(Some(erwachsene_einkommen_to_string(&new_adults_incomes)));
     };
     let change_ke = move |e| set_ke.set(Some(kinder_einkommen_to_string(&kinder_einkommen.get())));
+
+    Effect::new( move |_| {
+        let mut summe = 0.0;
+        summe += anr_einkommen(erwachsene_einkommen.get()[0].netto);
+        if let Some(ee) = erwachsene_einkommen.get().get(1) {
+            summe += anr_einkommen(ee.netto);
+        }
+        set_ae.set(summe);
+    });
 
     view! {
         <div class="container max-w-screen-xl mx-auto px-4 bg-linear-to-b from-stone-50 to-stone-300">

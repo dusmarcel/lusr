@@ -121,12 +121,14 @@ pub fn LUSR() -> impl IntoView {
     );
     let kinder_einkommen = Memo::new( move |_| kinder_einkommen_from_string(ke.get().unwrap_or_default()));
 
+    let (ae, set_ae) = signal(0.0);
+
     view! {
         <Intro />
         <Community e=e set_e=set_e u25=u25 set_u25=set_u25 u18=u18 set_u18=set_u18 u14=u14 set_u14=set_u14 u6=u6 set_u6=set_u6 m=m set_m=set_m kv=kv set_kv=set_kv ku=ku set_ku=set_ku />
         <Needs e=e u25=u25 u18=u18 u14=u14 u6=u6 m=m kv=kv ku=ku sb=sb />
-        <Income e=e k=k erwachsene_einkommen=erwachsene_einkommen set_ee=set_ee kinder_einkommen=kinder_einkommen set_ke=set_ke />
-        <Result />
+        <Income e=e k=k erwachsene_einkommen=erwachsene_einkommen set_ee=set_ee kinder_einkommen=kinder_einkommen set_ke=set_ke set_ae=set_ae />
+        <Result sb=sb ae=ae />
         <Notes />
     }
 }
