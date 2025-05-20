@@ -1,12 +1,13 @@
 use leptos::prelude::*;
 use leptos_router::{hooks::query_signal_with_options, location::State, NavigateOptions};
+//use leptos::web_sys::console;
 
 mod utils;
 mod defaults;
 mod standardrates;
 use crate::standardrates::{
-    ADULT_SINGLE,
-    ADULT_COUPLE,
+    ERWACHSEN_SINGLE,
+    ERWACHSEN_PAAR,
     U25,
     U18,
     U14,
@@ -14,8 +15,8 @@ use crate::standardrates::{
 };
 mod incomes;
 use crate::incomes::{
-    children::children_incomes_from_string,
-    adults::adults_incomes_from_string
+    children::kinder_einkommen_from_string,
+    adults::{ErwachsenEinkommen, erwachsene_einkommen_from_string, erwachsene_einkommen_to_string}
 };
 mod components;
 use crate::components::{
@@ -31,11 +32,11 @@ use crate::components::{
 pub fn LUSR() -> impl IntoView {
     // adult person(s) in the community (Bedarfsgemeinschaft)
     // should only be 1 (default) or 2
-    let (a, set_a) = query_signal_with_options::<u32>(
-        "a",
+    let (e, set_e) = query_signal_with_options::<u32>(
+        "e",
         NavigateOptions { resolve: true, replace: false, scroll: false, state: State::new(None) }
     );
-    if a.get_untracked().unwrap_or(defaults::ADULTS) != 1 && a.get_untracked().unwrap_or(defaults::ADULTS) != 2 { set_a.set(Some(defaults::ADULTS)) };
+    if e.get_untracked().unwrap_or(defaults::ERWACHSENE) != 1 && e.get_untracked().unwrap_or(defaults::ERWACHSENE) != 2 { set_e.set(Some(defaults::ERWACHSENE)) };
 
     // their children
     let (u25, set_u25) = query_signal_with_options::<u32>(
@@ -56,69 +57,75 @@ pub fn LUSR() -> impl IntoView {
     );
 
     // the rent (Miete)
-    let (r, set_r) = query_signal_with_options::<f64>(
-        "r",
+    let (m, set_m) = query_signal_with_options::<f64>(
+        "m",
         NavigateOptions { resolve: true, replace: false, scroll: false, state: State::new(None) }
     );
 
     // the health insurance (Krankenversicherung)
-    let (hi, set_hi) = query_signal_with_options::<f64>(
-        "hi",
+    let (kv, set_kv) = query_signal_with_options::<f64>(
+        "kv",
         NavigateOptions { resolve: true, replace: false, scroll: false, state: State::new(None) }
     );    
 
     // the child maintenance (Kindesunterhalt)
-    let (cm, set_cm) = query_signal_with_options::<f64>(
-        "cm",
+    let (ku, set_ku) = query_signal_with_options::<f64>(
+        "ku",
         NavigateOptions { resolve: true, replace: false, scroll: false, state: State::new(None) }
     );
 
     // Calculate the sum of the Needs (Bedarfe)
-    let sn = Memo::new(move |_| {
+    let sb = Memo::new(move |_| {
         let mut summe = 0.0;
-        if a.get().unwrap_or(defaults::ADULTS) == 1 {
-            summe += ADULT_SINGLE
+        if e.get().unwrap_or(defaults::ERWACHSENE) == 1 {
+            summe += ERWACHSEN_SINGLE
         } else {
-            summe += ADULT_COUPLE
+            summe += ERWACHSEN_PAAR
         }
         summe += u25.get().unwrap_or(defaults::U25)  as f64 * U25;
         summe += u18.get().unwrap_or(defaults::U18) as f64 * U18;
         summe += u14.get().unwrap_or(defaults::U14) as f64 * U14;
         summe += u6.get().unwrap_or(defaults::U6) as f64 * U6;
-        summe += r.get().unwrap_or(defaults::RENT);
-        summe += hi.get().unwrap_or(defaults::HI);
-        summe += cm.get().unwrap_or(defaults::CM);
+        summe += m.get().unwrap_or(defaults::MIETE);
+        summe += kv.get().unwrap_or(defaults::KV);
+        summe += ku.get().unwrap_or(defaults::KU);
         summe
     });
 
     // Calculate number of children
-    let c = Memo::new( move |_| {
-        let mut c = 0;
-        c += u25.get().unwrap_or(defaults::U25);
-        c += u18.get().unwrap_or(defaults::U18);
-        c += u14.get().unwrap_or(defaults::U14);
-        c += u6.get().unwrap_or(defaults::U6);
-        c
+    let k = Memo::new( move |_| {
+        let mut k = 0;
+        k += u25.get().unwrap_or(defaults::U25);
+        k += u18.get().unwrap_or(defaults::U18);
+        k += u14.get().unwrap_or(defaults::U14);
+        k += u6.get().unwrap_or(defaults::U6);
+        k
     });
 
-    let (ai, set_ai) = query_signal_with_options::<String>(
-        "ai",
+    let (ee, set_ee) = query_signal_with_options::<String>(
+        "ee",
         NavigateOptions { resolve: true, replace: false, scroll: false, state: State::new(None) }
     );
-    let adults_incomes = Memo::new( move |_| adults_incomes_from_string(ai.get().unwrap_or_default()));
+    let mut eek = erwachsene_einkommen_from_string(ee.get_untracked().unwrap_or_default());
+    //console::log_4(&"adults incomes' len was ".into(), &aic.len().into(), &", its string is now: ".into(), &adults_incomes_to_string(&aic).into());
+    if eek.len() < 2 {
+        eek.push(ErwachsenEinkommen::new());
+        // console::log_2(&"adults incomes' len was 1, its string is now: ".into(), &adults_incomes_to_string(&aic).into());
+        set_ee.set(Some(erwachsene_einkommen_to_string(&eek)));
+    }
+    let erwachsene_einkommen = Memo::new( move |_| erwachsene_einkommen_from_string(ee.get().unwrap_or_default()));
     
-    let (ci, set_ci) = query_signal_with_options::<String>(
-        "ci",
+    let (ke, set_ke) = query_signal_with_options::<String>(
+        "ke",
         NavigateOptions { resolve: true, replace: false, scroll: false, state: State::new(None) }
     );
-    let children_incomes = Memo::new( move |_| children_incomes_from_string(ci.get().unwrap_or_default()));
-
+    let kinder_einkommen = Memo::new( move |_| kinder_einkommen_from_string(ke.get().unwrap_or_default()));
 
     view! {
         <Intro />
-        <Community a=a set_a=set_a u25=u25 set_u25=set_u25 u18=u18 set_u18=set_u18 u14=u14 set_u14=set_u14 u6=u6 set_u6=set_u6 r=r set_r=set_r hi=hi set_hi=set_hi cm=cm set_cm />
-        <Needs a=a u25=u25 u18=u18 u14=u14 u6=u6 r=r hi=hi cm=cm sn=sn />
-        <Income a=a c=c adults_incomes=adults_incomes set_ai=set_ai children_incomes=children_incomes set_ci=set_ci />
+        <Community e=e set_e=set_e u25=u25 set_u25=set_u25 u18=u18 set_u18=set_u18 u14=u14 set_u14=set_u14 u6=u6 set_u6=set_u6 m=m set_m=set_m kv=kv set_kv=set_kv ku=ku set_ku=set_ku />
+        <Needs e=e u25=u25 u18=u18 u14=u14 u6=u6 m=m kv=kv ku=ku sb=sb />
+        <Income e=e k=k erwachsene_einkommen=erwachsene_einkommen set_ee=set_ee kinder_einkommen=kinder_einkommen set_ke=set_ke />
         <Result />
         <Notes />
     }

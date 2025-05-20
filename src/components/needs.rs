@@ -3,8 +3,8 @@ use leptos::prelude::*;
 use crate::utils::format_euro;
 use crate::defaults;
 use crate::standardrates::{
-    ADULT_SINGLE,
-    ADULT_COUPLE,
+    ERWACHSEN_SINGLE,
+    ERWACHSEN_PAAR,
     U25,
     U18,
     U14,
@@ -15,15 +15,15 @@ use crate::standardrates::{
 
 #[component]
 pub fn Needs(
-    a: Memo<Option<u32>>,
+    e: Memo<Option<u32>>,
     u25: Memo<Option<u32>>,
     u18: Memo<Option<u32>>,
     u14: Memo<Option<u32>>,
     u6: Memo<Option<u32>>,
-    r: Memo<Option<f64>>,
-    hi: Memo<Option<f64>>,
-    cm: Memo<Option<f64>>,
-    sn: Memo<f64>
+    m: Memo<Option<f64>>,
+    kv: Memo<Option<f64>>,
+    ku: Memo<Option<f64>>,
+    sb: Memo<f64>
 ) -> impl IntoView {
 
     view! {
@@ -35,15 +35,15 @@ pub fn Needs(
                 <tr>
                     <td class="px-1">"Erwachsene:"</td>
                     {
-                        move || if a.get().unwrap_or(defaults::ADULTS) == defaults::ADULTS {
+                        move || if e.get().unwrap_or(defaults::ERWACHSENE) == defaults::ERWACHSENE {
                             view! {
-                                <td class="px-1 text-right">"1 x "{ format_euro(ADULT_SINGLE) }</td>
-                                <td class="px-1 text-right">{ format_euro(ADULT_SINGLE) }</td>
+                                <td class="px-1 text-right">"1 x "{ format_euro(ERWACHSEN_SINGLE) }</td>
+                                <td class="px-1 text-right">{ format_euro(ERWACHSEN_SINGLE) }</td>
                             }
                         } else {
                             view! {
-                                <td class="px-1 text-right">"2 x "{ format_euro(ADULT_COUPLE / 2.0) }</td>
-                                <td class="px-1 text-right">{ format_euro(ADULT_COUPLE) }</td>
+                                <td class="px-1 text-right">"2 x "{ format_euro(ERWACHSEN_PAAR / 2.0) }</td>
+                                <td class="px-1 text-right">{ format_euro(ERWACHSEN_PAAR) }</td>
                             }
                         }
                     }
@@ -96,27 +96,27 @@ pub fn Needs(
                     <td class="px-1">"Miete inkl. Betriebskosten:"</td>
                     <td class="px-1"></td>
                     <td class="px-1 text-right">
-                        { move || format_euro(r.get().unwrap_or(defaults::RENT)) }
+                        { move || format_euro(m.get().unwrap_or(defaults::MIETE)) }
                     </td>
                 </tr>
                 <tr>
                     <td class="px-1">"Krankenversicherung:"</td>
                     <td class="px-1"></td>
                     <td class="px-1 text-right">
-                        { move || format_euro(hi.get().unwrap_or(defaults::HI)) }
+                        { move || format_euro(kv.get().unwrap_or(defaults::KV)) }
                     </td>
                 </tr>
                 <tr>
                     <td class="px-1">"Kindesunterhalt:"</td>
                     <td class="px-1"></td>
                     <td class="px-1 text-right">
-                        { move || format_euro(cm.get().unwrap_or(defaults::CM)) }
+                        { move || format_euro(ku.get().unwrap_or(defaults::KU)) }
                     </td>
                 </tr>
                 <tr class="font-semibold">
                     <td class="px-1">"Summe der Regelbedarfe:"</td>
                     <td></td>
-                    <td class="px-1 text-right">{ move || format_euro(sn.get()) }</td>
+                    <td class="px-1 text-right">{ move || format_euro(sb.get()) }</td>
                 </tr>
             </table>
         </div>

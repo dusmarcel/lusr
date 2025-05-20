@@ -1,12 +1,16 @@
 #[derive(Default, PartialEq, Clone)]
-pub struct AdultIncome {
+pub struct ErwachsenEinkommen {
     pub brutto: f64,
     pub netto: f64,
 }
 
-impl AdultIncome {
-    pub fn from_str(s: &str) -> AdultIncome {
-        let mut ai = AdultIncome::default();
+impl ErwachsenEinkommen {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    pub fn from_str(s: &str) -> Self {
+        let mut ai = ErwachsenEinkommen::default();
         let strings: Vec<&str> = s.split(':').collect();
         ai.brutto = strings.get(0).unwrap_or(&"").parse::<f64>().unwrap_or_default();
         ai.netto = strings.get(1).unwrap_or(&"").parse::<f64>().unwrap_or_default();
@@ -18,16 +22,16 @@ impl AdultIncome {
     }
 }
 
-pub fn adults_incomes_from_string(ai_string: String) -> Vec<AdultIncome> {
-    ai_string.split(';').map( |s| {
-        AdultIncome::from_str(s)
+pub fn erwachsene_einkommen_from_string(ee_string: String) -> Vec<ErwachsenEinkommen> {
+    ee_string.split(';').map( |s| {
+        ErwachsenEinkommen::from_str(s)
     }).collect()
 }
 
-pub fn adults_incomes_to_string(v: &Vec<AdultIncome>) -> String {
+pub fn erwachsene_einkommen_to_string(v: &Vec<ErwachsenEinkommen>) -> String {
     v.into_iter().map( |i| {
         i.to_string()
     })
     .collect::<Vec<String>>()
-    .join(":")
+    .join(";")
 }

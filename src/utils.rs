@@ -1,6 +1,8 @@
 use leptos::prelude::*;
 use leptos_use::{use_intl_number_format, CurrencyDisplay, NumberStyle, UseIntlNumberFormatOptions};
 
+use crate::standardrates::WERBUNGSKOSTENPAUSCHALE;
+
 pub fn format_euro(value: f64) -> String {
     use_intl_number_format(
         UseIntlNumberFormatOptions::default()
@@ -11,4 +13,8 @@ pub fn format_euro(value: f64) -> String {
     )
     .format::<f64>(value)
     .get()
+}
+
+pub fn rec_income(netto: f64) -> f64 {
+    netto - WERBUNGSKOSTENPAUSCHALE as f64
 }
