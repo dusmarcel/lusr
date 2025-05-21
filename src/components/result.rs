@@ -62,10 +62,11 @@ pub fn Result(
                 { move || if ratio.get() > 1.0 { "vollständig" } else { "nicht vollständig" } }
                 </span>
                 " gesichert."
-                { move || if ratio.get() > 0.5 { Some("Der Lebensunterhalt ist allerdings ") } else { None } }
-                <span class={ move || if ratio.get() > 0.75 { "text-yellow-300" } else if ratio.get() > 0.5 { "text-orange-500" } else { ""} }>
-                "überwiegend gesichert."
+                { move || if ratio.get() > 0.5 && ratio.get() < 1.0 { Some(" Der Lebensunterhalt ist allerdings ") } else { None } }
+                <span class={ move || if ratio.get() > 0.75 { "text-yellow-500" } else if ratio.get() > 0.5 { "text-orange-500" } else { ""} }>
+                { move || if ratio.get() > 0.75 && ratio.get() < 1.0 { Some("weit überwiegend") } else if ratio.get() > 0.5 && ratio.get() < 1.0 { Some("überwiegend") } else { None } }
                 </span>
+                { move || if ratio.get() > 0.5 && ratio.get() < 1.0 { Some(" gesichert.") } else { None } }
             </p>
         </div>
     }
