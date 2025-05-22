@@ -1,3 +1,4 @@
+use incomes::children::{kinder_einkommen_to_string, KindEinkommen};
 use leptos::prelude::*;
 use leptos_router::{hooks::query_signal_with_options, location::State, NavigateOptions};
 //use leptos::web_sys::console;
@@ -92,16 +93,6 @@ pub fn LUSR() -> impl IntoView {
         summe
     });
 
-    // Calculate number of children
-    let k = Memo::new( move |_| {
-        let mut k = 0;
-        k += u25.get().unwrap_or(defaults::U25);
-        k += u18.get().unwrap_or(defaults::U18);
-        k += u14.get().unwrap_or(defaults::U14);
-        k += u6.get().unwrap_or(defaults::U6);
-        k
-    });
-
     let (ee, set_ee) = query_signal_with_options::<String>(
         "ee",
         NavigateOptions { resolve: true, replace: false, scroll: false, state: State::new(None) }
@@ -118,6 +109,21 @@ pub fn LUSR() -> impl IntoView {
         NavigateOptions { resolve: true, replace: false, scroll: false, state: State::new(None) }
     );
     let kinder_einkommen = Memo::new( move |_| kinder_einkommen_from_string(ke.get().unwrap_or_default()));
+
+    // Calculate number of children
+    let k = Memo::new( move |_| {
+        let mut lke = kinder_einkommen_from_string(ke.get().unwrap_or_default());
+        let mut k = 0;
+        k += u25.get().unwrap_or(defaults::U25);
+        k += u18.get().unwrap_or(defaults::U18);
+        k += u14.get().unwrap_or(defaults::U14);
+        k += u6.get().unwrap_or(defaults::U6);
+        while lke.len() < k as usize {
+            lke.push(KindEinkommen::new());
+        }
+        set_ke.set(Some(kinder_einkommen_to_string(&lke)));
+        k
+    });
 
     let (ae, set_ae) = signal(0.0);
 
