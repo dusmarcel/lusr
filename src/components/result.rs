@@ -1,7 +1,5 @@
-use std::default;
-
 use leptos::prelude::*;
-use leptos_use::{use_intl_number_format, CurrencyDisplay, NumberStyle, UseIntlNumberFormatOptions};
+use leptos_use::{use_intl_number_format, NumberStyle, UseIntlNumberFormatOptions};
 
 use crate::utils::format_euro;
 

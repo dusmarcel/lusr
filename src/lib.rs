@@ -107,10 +107,8 @@ pub fn LUSR() -> impl IntoView {
         NavigateOptions { resolve: true, replace: false, scroll: false, state: State::new(None) }
     );
     let mut eek = erwachsene_einkommen_from_string(ee.get_untracked().unwrap_or_default());
-    //console::log_4(&"adults incomes' len was ".into(), &aic.len().into(), &", its string is now: ".into(), &adults_incomes_to_string(&aic).into());
     if eek.len() < 2 {
         eek.push(ErwachsenEinkommen::new());
-        // console::log_2(&"adults incomes' len was 1, its string is now: ".into(), &adults_incomes_to_string(&aic).into());
         set_ee.set(Some(erwachsene_einkommen_to_string(&eek)));
     }
     let erwachsene_einkommen = Memo::new( move |_| erwachsene_einkommen_from_string(ee.get().unwrap_or_default()));

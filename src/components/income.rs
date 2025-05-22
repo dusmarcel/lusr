@@ -42,7 +42,7 @@ pub fn Income(
         new_adults_incomes[1].netto = event_target_value(&e).parse::<f64>().unwrap_or(0.0);
         set_ee.set(Some(erwachsene_einkommen_to_string(&new_adults_incomes)));
     };
-    let change_ke = move |e| set_ke.set(Some(kinder_einkommen_to_string(&kinder_einkommen.get())));
+    // let change_ke = move |e| set_ke.set(Some(kinder_einkommen_to_string(&kinder_einkommen.get())));
 
     Effect::new( move |_| {
         let mut summe = 0.0;
@@ -64,12 +64,28 @@ pub fn Income(
             <table>
                 <tr>
                     <td class="px-1">
-                        "Einkommen brutto:"
+                        "Einkommen brutto"
                     </td>
+                    <td class="px-1">
+                        "Einkommen netto"
+                    </td>
+                    <td class="px-1">
+                        "Anrechenbares Einkommen"
+                    </td>
+                </tr>
+                <tr>                
                     <td class="px-1">
                         <input type="text" min="0.0" class="px-1 border-2 border-stone-400 rounded-lg text-right" value={ move || format_euro(erwachsene_einkommen.get()[0].brutto) } prop:value={ move || format_euro(erwachsene_einkommen.get()[0].brutto) } on:change=change_ee0_brutto />
                     </td>
-                    <td class={ move || if couple.get() { "visible" } else { "hidden" }}>
+                    <td class="px-1">
+                        <input type="text" min="0.0" class="px-1 border-2 border-stone-400 rounded-lg text-right" value={ move || format_euro(erwachsene_einkommen.get()[0].netto) } prop:value={ move || format_euro(erwachsene_einkommen.get()[0].netto) } on:change=change_ee0_netto />
+                    </td>
+                    <td class="px-1 text-right">
+                        { move || format_euro(anr_einkommen(erwachsene_einkommen.get()[0].netto))}
+                    </td>
+                </tr>
+                <tr class={ move || if couple.get() { "visible" } else { "hidden" }}>
+                    <td class="px-1">
                         <input
                             type="text"
                             min="0.0"
@@ -91,15 +107,7 @@ pub fn Income(
                             on:change=change_ee1_brutto
                         />
                     </td>
-                </tr>
-                <tr>
                     <td class="px-1">
-                        "Einkommen netto:"
-                    </td>
-                    <td class="px-1">
-                        <input type="text" min="0.0" class="px-1 border-2 border-stone-400 rounded-lg text-right" value={ move || format_euro(erwachsene_einkommen.get()[0].netto) } prop:value={ move || format_euro(erwachsene_einkommen.get()[0].netto) } on:change=change_ee0_netto />
-                    </td>
-                    <td class={ move || if couple.get() { "visible" } else { "hidden" }}>
                         <input 
                             type="text"
                             min="0.0"
@@ -121,16 +129,7 @@ pub fn Income(
                             on:change=change_ee1_netto
                         />
                     </td>
-                </tr>
-                <tr>
-                    <td class="px-1">
-                        "Anrechenbares Einkommen:"
-                    </td>
                     <td class="px-1 text-right">
-                        //<input type="text" min="0.0" class="px-1 border-2 border-stone-400 rounded-lg text-right" value={ move || format_euro(erwachsene_einkommen.get()[0].netto) } prop:value={ move || format_euro(erwachsene_einkommen.get()[0].netto) } on:change=change_ee0_netto />
-                        { move || format_euro(anr_einkommen(erwachsene_einkommen.get()[0].netto))}
-                    </td>
-                    <td class={ move || if couple.get() { "visible px-1 text-right" } else { "hidden" }}>
                         {
                             move || if let Some(ee) = erwachsene_einkommen.get().get(1) {
                                 format_euro(anr_einkommen(ee.netto))
@@ -147,11 +146,17 @@ pub fn Income(
             <table class={ move || if k.get() > 0 { "visible" } else { "hidden" }}>
                 <tr>
                     <td class="px-1">
-                        "Einkommen brutto:"
+                        "Einkommen brutto"
                     </td>
                     <td class="px-1">
-                        <input type="text" min="0.0" value={ move || format_euro(kinder_einkommen.get()[0].brutto) } class="border-2 border-stone-400 rounded-lg px-1" on:change=change_ke />
+                        "Einkommen netto"
                     </td>
+                    <td class="px-1">
+                        "Anrechenbares Einkommen"
+                    </td>
+                    // <td class="px-1">
+                    //     <input type="text" min="0.0" value={ move || format_euro(kinder_einkommen.get()[0].brutto) } class="border-2 border-stone-400 rounded-lg px-1" on:change=change_ke />
+                    // </td>
                 </tr>
             </table>
         </div>
