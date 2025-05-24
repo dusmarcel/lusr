@@ -62,88 +62,93 @@ pub fn Income(
                 "Dem ermittelten Bedarf müssen wir jetzt das Einkommen der Bedarfsgemeinschaft gegenüberstellen."
             </p>
             <table>
-                <tr>
-                    <td class="px-1">
-                        "Einkommen brutto"
-                    </td>
-                    <td class="px-1">
-                        "Einkommen netto"
-                    </td>
-                    <td class="px-1">
-                        "Anrechenbares Einkommen"
-                    </td>
-                </tr>
-                <tr>                
-                    <td class="px-1">
-                        <input type="text" min="0.0" class="px-1 border-2 border-stone-400 rounded-lg text-right" value={ move || format_euro(erwachsene_einkommen.get()[0].brutto) } prop:value={ move || format_euro(erwachsene_einkommen.get()[0].brutto) } on:change=change_ee0_brutto />
-                    </td>
-                    <td class="px-1">
-                        <input type="text" min="0.0" class="px-1 border-2 border-stone-400 rounded-lg text-right" value={ move || format_euro(erwachsene_einkommen.get()[0].netto) } prop:value={ move || format_euro(erwachsene_einkommen.get()[0].netto) } on:change=change_ee0_netto />
-                    </td>
-                    <td class="px-1 text-right">
-                        { move || format_euro(anr_einkommen(erwachsene_einkommen.get()[0].netto))}
-                    </td>
-                </tr>
-                <tr class={ move || if couple.get() { "visible" } else { "hidden" }}>
-                    <td class="px-1">
-                        <input
-                            type="text"
-                            min="0.0"
-                            class="px-1 border-2 border-stone-400 rounded-lg text-right"
-                            value={
-                                move || if let Some(ee) = erwachsene_einkommen.get().get(1) {
-                                    format_euro(ee.brutto)
-                                } else {
-                                    format_euro(0.0)
+                <thead>
+                    <tr>
+                        <td class="px-1">
+                            "Einkommen brutto"
+                        </td>
+                        <td class="px-1">
+                            "Einkommen netto"
+                        </td>
+                        <td class="px-1">
+                            "Anrechenbares Einkommen"
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>                
+                        <td class="px-1">
+                            <input type="text" min="0.0" class="px-1 border-2 border-stone-400 rounded-lg text-right" value={ move || format_euro(erwachsene_einkommen.get()[0].brutto) } prop:value={ move || format_euro(erwachsene_einkommen.get()[0].brutto) } on:change=change_ee0_brutto />
+                        </td>
+                        <td class="px-1">
+                            <input type="text" min="0.0" class="px-1 border-2 border-stone-400 rounded-lg text-right" value={ move || format_euro(erwachsene_einkommen.get()[0].netto) } prop:value={ move || format_euro(erwachsene_einkommen.get()[0].netto) } on:change=change_ee0_netto />
+                        </td>
+                        <td class="px-1 text-right">
+                            { move || format_euro(anr_einkommen(erwachsene_einkommen.get()[0].netto))}
+                        </td>
+                    </tr>
+                    <tr class={ move || if couple.get() { "visible" } else { "hidden" }}>
+                        <td class="px-1">
+                            <input
+                                type="text"
+                                min="0.0"
+                                class="px-1 border-2 border-stone-400 rounded-lg text-right"
+                                value={
+                                    move || if let Some(ee) = erwachsene_einkommen.get().get(1) {
+                                        format_euro(ee.brutto)
+                                    } else {
+                                        format_euro(0.0)
+                                    } 
                                 } 
-                            } 
-                            prop:value={
+                                prop:value={
+                                    move || if let Some(ee) = erwachsene_einkommen.get().get(1) {
+                                        format_euro(ee.brutto)
+                                    } else {
+                                        format_euro(0.0)
+                                    }
+                                }
+                                on:change=change_ee1_brutto
+                            />
+                        </td>
+                        <td class="px-1">
+                            <input 
+                                type="text"
+                                min="0.0"
+                                class="px-1 border-2 border-stone-400 rounded-lg text-right"
+                                value={
+                                    move || if let Some(ee) = erwachsene_einkommen.get().get(1) {
+                                        format_euro(ee.netto)
+                                    } else {
+                                        format_euro(0.0)
+                                    }
+                                }
+                                prop:value={
+                                    move || if let Some(ee) = erwachsene_einkommen.get().get(1) {
+                                        format_euro(ee.netto)
+                                    } else {
+                                        format_euro(0.0)
+                                    }                                
+                                }
+                                on:change=change_ee1_netto
+                            />
+                        </td>
+                        <td class="px-1 text-right">
+                            {
                                 move || if let Some(ee) = erwachsene_einkommen.get().get(1) {
-                                    format_euro(ee.brutto)
+                                    format_euro(anr_einkommen(ee.netto))
                                 } else {
                                     format_euro(0.0)
                                 }
                             }
-                            on:change=change_ee1_brutto
-                        />
-                    </td>
-                    <td class="px-1">
-                        <input 
-                            type="text"
-                            min="0.0"
-                            class="px-1 border-2 border-stone-400 rounded-lg text-right"
-                            value={
-                                move || if let Some(ee) = erwachsene_einkommen.get().get(1) {
-                                    format_euro(ee.netto)
-                                } else {
-                                    format_euro(0.0)
-                                }
-                            }
-                            prop:value={
-                                move || if let Some(ee) = erwachsene_einkommen.get().get(1) {
-                                    format_euro(ee.netto)
-                                } else {
-                                    format_euro(0.0)
-                                }                                
-                            }
-                            on:change=change_ee1_netto
-                        />
-                    </td>
-                    <td class="px-1 text-right">
-                        {
-                            move || if let Some(ee) = erwachsene_einkommen.get().get(1) {
-                                format_euro(anr_einkommen(ee.netto))
-                            } else {
-                                format_euro(0.0)
-                            }
-                        }
-                    </td>
-                </tr>
+                        </td>
+                    </tr>
+                </tbody>
             </table>
             <h3 class={ move || if k.get() > 0 { "text-xl font-medium" } else { "hidden" }}>
                 "Einkommen der Kinder"
             </h3>
             <table class={ move || if k.get() > 0 { "visible" } else { "hidden" }}>
+                <thead>
                 <tr>
                     <td class="px-1">
                         "Einkommen brutto"
@@ -154,10 +159,28 @@ pub fn Income(
                     <td class="px-1">
                         "Anrechenbares Einkommen"
                     </td>
+                </tr>
+                </thead>
+                <tbody>
+                    {
+                        move || {
+                            k.get();
+                            let kinder = &kinder_einkommen.get()[0..k.get() as usize];
+                            kinder.into_iter()
+                                .map( |_kind| {
+                                    view! { <tr>
+                                        <td>"pips"</td>
+                                        <td>"paps"</td>
+                                        <td>"pups"</td>
+                                    </tr> }
+                                })
+                                .collect::<Vec<_>>()
+                        }
+                    }
+                </tbody>
                     // <td class="px-1">
                     //     <input type="text" min="0.0" value={ move || format_euro(kinder_einkommen.get()[0].brutto) } class="border-2 border-stone-400 rounded-lg px-1" on:change=change_ke />
                     // </td>
-                </tr>
             </table>
         </div>
     }
