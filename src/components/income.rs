@@ -51,7 +51,9 @@ pub fn Income(
             summe += anr_einkommen(ee.netto);
         }
         for kind in kinder_einkommen.get() {
-            summe += anr_einkommen(kind.netto);
+            if kind.id < k.get() as usize {
+                summe += anr_einkommen(kind.netto);
+            }
         }
         set_ae.set(summe);
     });
