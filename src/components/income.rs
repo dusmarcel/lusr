@@ -1,4 +1,5 @@
 use leptos::prelude::*;
+use reactive_stores::Store;
 //use leptos::web_sys::console;
 
 use crate::{
@@ -42,7 +43,6 @@ pub fn Income(
         new_adults_incomes[1].netto = event_target_value(&e).parse::<f64>().unwrap_or(0.0);
         set_ee.set(Some(erwachsene_einkommen_to_string(&new_adults_incomes)));
     };
-    // let change_ke = move |e| set_ke.set(Some(kinder_einkommen_to_string(&kinder_einkommen.get())));
 
     Effect::new( move |_| {
         let mut summe = 0.0;
@@ -50,8 +50,14 @@ pub fn Income(
         if let Some(ee) = erwachsene_einkommen.get().get(1) {
             summe += anr_einkommen(ee.netto);
         }
+        for kind in kinder_einkommen.get() {
+            summe += anr_einkommen(kind.netto);
+        }
         set_ae.set(summe);
     });
+
+    //Effect::new
+    let data = Store::new(move || kinder_einkommen.get());
 
     view! {
         <div class="container max-w-screen-xl mx-auto px-4 bg-linear-to-b from-stone-50 to-stone-300">
@@ -162,25 +168,16 @@ pub fn Income(
                 </tr>
                 </thead>
                 <tbody>
-                    {
-                        move || {
-                            k.get();
-                            let kinder = &kinder_einkommen.get()[0..k.get() as usize];
-                            kinder.into_iter()
-                                .map( |_kind| {
-                                    view! { <tr>
-                                        <td>"pips"</td>
-                                        <td>"paps"</td>
-                                        <td>"pups"</td>
-                                    </tr> }
-                                })
-                                .collect::<Vec<_>>()
-                        }
-                    }
+                <For
+                    each=move || (data.get())()
+                    key=|kind| kind.id
+                    let:kind
+                >
+                    <tr class={ move || if k.get() as usize > kind.id { "visible" } else { "hidden" }}>
+                        <td>"pips"</td><td>"paps"</td><td>"pups"</td>
+                    </tr>
+                </For>
                 </tbody>
-                    // <td class="px-1">
-                    //     <input type="text" min="0.0" value={ move || format_euro(kinder_einkommen.get()[0].brutto) } class="border-2 border-stone-400 rounded-lg px-1" on:change=change_ke />
-                    // </td>
             </table>
         </div>
     }

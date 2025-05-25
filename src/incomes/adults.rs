@@ -10,20 +10,20 @@ impl ErwachsenEinkommen {
     }
 
     pub fn from_str(s: &str) -> Self {
-        let mut ai = ErwachsenEinkommen::default();
-        let strings: Vec<&str> = s.split(':').collect();
-        ai.brutto = strings.get(0).unwrap_or(&"").parse::<f64>().unwrap_or_default();
-        ai.netto = strings.get(1).unwrap_or(&"").parse::<f64>().unwrap_or_default();
-        ai
+        let mut ee = ErwachsenEinkommen::new();
+        let strings: Vec<&str> = s.split('l').collect();
+        ee.brutto = strings.get(0).unwrap_or(&"").parse::<f64>().unwrap_or_default();
+        ee.netto = strings.get(1).unwrap_or(&"").parse::<f64>().unwrap_or_default();
+        ee
     }
 
     pub fn to_string(&self) -> String {
-        format!("{}:{}", self.brutto, self.netto)
+        format!("{}l{}", self.brutto, self.netto)
     }
 }
 
 pub fn erwachsene_einkommen_from_string(ee_string: String) -> Vec<ErwachsenEinkommen> {
-    ee_string.split(';').map( |s| {
+    ee_string.split('x').map( |s| {
         ErwachsenEinkommen::from_str(s)
     }).collect()
 }
@@ -33,5 +33,5 @@ pub fn erwachsene_einkommen_to_string(v: &Vec<ErwachsenEinkommen>) -> String {
         i.to_string()
     })
     .collect::<Vec<String>>()
-    .join(";")
+    .join("x")
 }

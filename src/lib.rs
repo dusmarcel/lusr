@@ -119,8 +119,11 @@ pub fn LUSR() -> impl IntoView {
         k += u14.get().unwrap_or(defaults::U14);
         k += u6.get().unwrap_or(defaults::U6);
         while lke.len() < k as usize {
-            lke.push(KindEinkommen::new());
+            lke.push(KindEinkommen::new(lke.len()));
         }
+        // while lke.len() > k as usize {
+        //     lke.pop();
+        // }
         set_ke.set(Some(kinder_einkommen_to_string(&lke)));
         k
     });
