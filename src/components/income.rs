@@ -175,16 +175,66 @@ pub fn Income(
                     let:kind
                 >
                     <tr class={ move || if k.get() as usize > kind.id { "visible" } else { "hidden" }}>
-                    //     <td>"pips"</td><td>"paps"</td><td>"pups"</td>
-                    // </tr>
                         <td class="px-1">
-                            <input type="text" min="0.0" class="px-1 border-2 border-stone-400 rounded-lg text-right" value={ move || format_euro(kind.brutto) } prop:value={ move || format_euro(kind.brutto) } />
+                            <input
+                                type="text"
+                                min="0.0"
+                                class="px-1 border-2 border-stone-400 rounded-lg text-right" 
+                                value={
+                                    move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
+                                        format_euro(kind.brutto)
+                                    } else {
+                                        format_euro(0.0)
+                                    }
+                                }
+                                prop:value={
+                                    move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
+                                        format_euro(kind.brutto)
+                                    } else {
+                                        format_euro(0.0)
+                                    }
+                                }
+                                on:change={move |e| { 
+                                    let mut nci = kinder_einkommen.get().clone();
+                                    nci[kind.id].brutto = event_target_value(&e).parse::<f64>().unwrap_or(0.0);
+                                    set_ke.set(Some(kinder_einkommen_to_string(&nci)));
+                                }}
+                            />
                         </td>
                         <td class="px-1">
-                            <input type="text" min="0.0" class="px-1 border-2 border-stone-400 rounded-lg text-right" value={ move || format_euro(kind.netto) } prop:value={ move || format_euro(kind.netto) } on:change={move |e| { let mut nci = kinder_einkommen.get().clone(); nci[kind.id].netto = event_target_value(&e).parse::<f64>().unwrap_or(0.0); set_ke.set(Some(kinder_einkommen_to_string(&nci))); }}/>
+                            <input
+                                type="text"
+                                min="0.0"
+                                class="px-1 border-2 border-stone-400 rounded-lg text-right"
+                                value={
+                                    move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
+                                        format_euro(kind.netto)
+                                    } else {
+                                        format_euro(0.0)
+                                    }
+                                }
+                                prop:value={
+                                    move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
+                                        format_euro(kind.netto)
+                                    } else {
+                                        format_euro(0.0)
+                                    }
+                                }                                
+                                on:change={move |e| { 
+                                    let mut nci = kinder_einkommen.get().clone();
+                                    nci[kind.id].netto = event_target_value(&e).parse::<f64>().unwrap_or(0.0);
+                                    set_ke.set(Some(kinder_einkommen_to_string(&nci)));
+                                }}
+                            />
                         </td>
                         <td class="px-1 text-right">
-                            { move || format_euro(anr_einkommen(kind.netto)) }
+                            {
+                                move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
+                                    format_euro(anr_einkommen(kind.netto))
+                                } else {
+                                    format_euro(0.0)
+                                }
+                            }
                         </td>
                     </tr>
                 </For>
