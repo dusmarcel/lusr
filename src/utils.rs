@@ -63,5 +63,6 @@ pub fn anr_einkommen(brutto: f64, netto: f64, kinder: bool) -> f64 {
     ae -= absetzbetrag1(brutto);
     ae -= absetzbetrag2(brutto);
     ae -= absetzbetrag3(brutto, kinder);
+    if ae < 0.0 { ae = 0.0 }
     ae
 }
