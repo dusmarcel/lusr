@@ -15,10 +15,53 @@ pub fn format_euro(value: f64) -> String {
     .get()
 }
 
-pub fn anr_einkommen(netto: f64) -> f64 {
-    let mut ae = netto - WERBUNGSKOSTENPAUSCHALE as f64;
-    if ae < 0.0 {
-        ae = 0.0;
+pub fn werbungskostenpauschale(netto: f64) -> f64 {
+    if netto > WERBUNGSKOSTENPAUSCHALE as f64 {
+        WERBUNGSKOSTENPAUSCHALE as f64
+    } else {
+        netto
     }
+}
+
+pub fn absetzbetrag1(brutto: f64) -> f64 {
+    if brutto > 100.0 {
+        let mut betrag = brutto;
+        if brutto > 520.0 { betrag = 520.0 }
+        betrag -= 100.0;
+        0.2 * betrag
+    } else {
+        0.0
+    }
+}
+
+pub fn absetzbetrag2(brutto: f64) -> f64 {
+    if brutto > 520.0 {
+        let mut betrag = brutto;
+        if brutto > 1000.0 { betrag = 1000.0 }
+        betrag -= 520.0;
+        0.3 * betrag
+    } else {
+        0.0
+    }
+}
+
+pub fn absetzbetrag3(brutto: f64, kinder: bool) -> f64 {
+    let mut max = 1200.0;
+    if kinder { max = 1500.0 }
+    if brutto > 1000.0 {
+        let mut betrag = brutto;
+        if brutto > max { betrag = max }
+        betrag -= 1000.0;
+        0.1 * betrag
+    } else {
+        0.0
+    }
+}
+
+pub fn anr_einkommen(brutto: f64, netto: f64, kinder: bool) -> f64 {
+    let mut ae = netto - werbungskostenpauschale(brutto);
+    ae -= absetzbetrag1(brutto);
+    ae -= absetzbetrag2(brutto);
+    ae -= absetzbetrag3(brutto, kinder);
     ae
 }

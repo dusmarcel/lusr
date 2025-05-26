@@ -17,6 +17,7 @@ use crate::{
 pub fn Income(
     e: Memo<Option<u32>>,
     k: Memo<u32>,
+    mj_kinder: Memo<bool>,
     f: Memo<Option<bool>>,
     set_f: SignalSetter<Option<bool>>,
     erwachsene_einkommen: Memo<Vec<ErwachsenEinkommen>>,
@@ -62,13 +63,13 @@ pub fn Income(
 
     Effect::new( move |_| {
         let mut summe = 0.0;
-        summe += anr_einkommen(erwachsene_einkommen.get()[0].netto) + erwachsene_einkommen.get()[0].sonstige;
+        summe += anr_einkommen(erwachsene_einkommen.get()[0].brutto, erwachsene_einkommen.get()[0].netto, mj_kinder.get()) + erwachsene_einkommen.get()[0].sonstige;
         if let Some(ee) = erwachsene_einkommen.get().get(1) {
-            summe += anr_einkommen(ee.netto) + ee.sonstige;
+            summe += anr_einkommen(ee.brutto, ee.netto, mj_kinder.get()) + ee.sonstige;
         }
         for kind in kinder_einkommen.get() {
             if kind.id < k.get() as usize {
-                summe += anr_einkommen(kind.netto) + kind.kinderzuschlag + kind.sonstige;
+                summe += anr_einkommen(kind.brutto, kind.netto, mj_kinder.get()) + kind.kinderzuschlag + kind.sonstige;
                 if kind.kindergeld { summe += KINDERGELD as f64 }
             }
         }
@@ -149,7 +150,7 @@ pub fn Income(
                             <input type="text" min="0.0" class="px-1 border-2 border-stone-400 rounded-lg text-right" value={ move || format_euro(erwachsene_einkommen.get()[0].sonstige) } prop:value={ move || format_euro(erwachsene_einkommen.get()[0].sonstige) } on:change=change_ee0_sonstige />
                         </td>
                         <td class="px-1 text-right">
-                            { move || format_euro(anr_einkommen(erwachsene_einkommen.get()[0].netto) + erwachsene_einkommen.get()[0].sonstige) }
+                            { move || format_euro(anr_einkommen(erwachsene_einkommen.get()[0].brutto, erwachsene_einkommen.get()[0].netto, mj_kinder.get()) + erwachsene_einkommen.get()[0].sonstige) }
                         </td>
                     </tr>
                     <tr class={ move || if couple.get() { "visible" } else { "hidden" }}>
@@ -222,7 +223,7 @@ pub fn Income(
                         <td class="px-1 text-right">
                             {
                                 move || if let Some(ee) = erwachsene_einkommen.get().get(1) {
-                                    format_euro(anr_einkommen(ee.netto) + ee.sonstige)
+                                    format_euro(anr_einkommen(ee.brutto, ee.netto, mj_kinder.get()) + ee.sonstige)
                                 } else {
                                     format_euro(0.0)
                                 }
@@ -403,7 +404,7 @@ pub fn Income(
                         <td class="px-1 text-right">
                             {
                                 move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
-                                    let mut e = anr_einkommen(kind.netto) + kind.kinderzuschlag + kind.sonstige;
+                                    let mut e = anr_einkommen(kind.brutto, kind.netto, mj_kinder.get()) + kind.kinderzuschlag + kind.sonstige;
                                     if kind.kindergeld { e += KINDERGELD as f64 }
                                     format_euro(e)
                                 } else {
