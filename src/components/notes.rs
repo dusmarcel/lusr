@@ -24,6 +24,13 @@ pub fn Notes() -> impl IntoView {
                 geeigneterer Angebote in Gestalt von Bürgergeldrechnern und ähnlichen Dingen."
             </p>
             <p>
+                "Die Werbungskostenpauschale (§ 11b Abs. 2 SGB II wird von diesem Rechner stets vom Netto-Einkommen
+                abgesetzt. Daher ist das anrechende Einkommen stets niedriger als das Netto-Einkommen. Es wäre ggf. möglich,
+                hier noch einen weiteren Schalter einzubauen, der es ermöglicht, auch die Anrechnung der Werbungskostenpauschale
+                zu ermöglichen (oder auch, hierfür einen anderen, frei wählbaren Betrag, anzugeben, sofern hierfür ein praktisches
+                Bedürfnis besteht. Ich freue mich über Feedback!"
+            </p>
+            <p>
                 "Der Rechner geht äußerst sparsam mit deinen Daten um. Zwar werden einige technisch benötigte Daten,
                 insbesondere deine IP-Adresse, an meinen Server gesendet und von meinem Server verarbeitet. Das ist nötig,
                 um die zum Rechner gehörenden Dateien an deinen Browser oder dein sonstiges Gerät, mit welchem du den

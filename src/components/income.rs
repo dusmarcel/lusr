@@ -15,12 +15,16 @@ use crate::{
 pub fn Income(
     e: Memo<Option<u32>>,
     k: Memo<u32>,
+    f: Memo<Option<bool>>,
+    set_f: SignalSetter<Option<bool>>,
     erwachsene_einkommen: Memo<Vec<ErwachsenEinkommen>>,
     set_ee: SignalSetter<Option<String>>,
     kinder_einkommen: Memo<Vec<KindEinkommen>>,
     set_ke: SignalSetter<Option<String>>,
     set_ae: WriteSignal<f64>
 ) -> impl IntoView {
+    let change_freibetraege = move |e| set_f.set(Some(event_target_checked(&e)));
+
     let couple = Memo::new(move |_| e.get().unwrap_or(defaults::ERWACHSENE) == 2);
 
     let change_ee0_brutto = move |e| {
@@ -67,6 +71,31 @@ pub fn Income(
             </h2>
             <p>
                 "Dem ermittelten Bedarf müssen wir jetzt das Einkommen der Bedarfsgemeinschaft gegenüberstellen."
+            </p>
+            <p>
+                <input
+                    type="checkbox"
+                    id="freibetraege"
+                    on:change=change_freibetraege
+                    prop:checked=move || f.get().unwrap_or(true)
+                />
+                <label for="freibetraege" class="ml-1">"Absetzbeträge gemäß § 11b Abs. 1 Nr. 6 i.V.m. Abs. 3 SGB II berücksichtigen"</label>
+                <button popovertarget="aussergerichtliche-vertretung" class="px-1 ml-1 border-2 border-stone-400 rounded-lg">?</button>
+                <div id="aussergerichtliche-vertretung" popover class="open:fixed open:left-1/2 open:top-1/4 open:-translate-x-1/2 open:max-w-lg open:w-full open:px-4 open:z-50 open:border-2 open:border-stone-400 open:rounded-lg open:bg-white open:shadow-lg">
+                    <h4 class="text-xl font-medium">"Absetzbeträge"</h4>
+                    <p>"Nach der Rechtsprechung sind vom Netto-Einkommen bestimmte Freibeträge gemäß § 11b SGB II abzusetzen.
+                    Der Rechner nimmt diese Abzüge automatisch vor. Im Anwendungsbereich der Familienzusammenführungsrichtlinie
+                    (Richtlinie 2003/86/EG) entfällt jedoch ein Teil dieser Abszüge. Daher kann du das Häkchen hier entfernen,
+                    wenn ein Aufenthaltstitel zum Familiennachzug von Ehegatt*in, Lebenspartner*in, oder minderjähirigen Kindern
+                    zu Ausländer*innen, die ihrerseits einen Aufenthaltstitel mit einer Gültigkeit von mindestens einem Jahr besitzen."</p>
+                    <p>"Nach richtiger Auffassung gilt dasselbe, wenn eine Erlaubnis zum Daueraufenthalt-EU (§ 9a AufenthG) angestrebt wird."</p>
+                    <p>"Wenn du dir unsicher bist, lasse das Häkchen gesetzt."</p>
+                    <p>"Die Werbungskostenpauschale (§ 11b Abs. 2 SGB II wird von diesem Rechner stets vom Netto-Einkommen
+                    abgesetzt. Daher ist das anrechende Einkommen stets niedriger als das Netto-Einkommen. Es wäre ggf. möglich,
+                    hier noch einen weiteren Schalter einzubauen, der es ermöglicht, auch die Anrechnung der Werbungskostenpauschale
+                    zu ermöglichen (oder auch, hierfür einen anderen, frei wählbaren Betrag, anzugeben, sofern hierfür ein praktisches
+                    Bedürfnis besteht. Ich freue mich über Feedback!"</p>
+                </div>   
             </p>
             <table>
                 <thead>
