@@ -2,6 +2,7 @@
 pub struct ErwachsenEinkommen {
     pub brutto: f64,
     pub netto: f64,
+    pub sonstige: f64
 }
 
 impl ErwachsenEinkommen {
@@ -14,11 +15,12 @@ impl ErwachsenEinkommen {
         let strings: Vec<&str> = s.split('l').collect();
         ee.brutto = strings.get(0).unwrap_or(&"").parse::<f64>().unwrap_or_default();
         ee.netto = strings.get(1).unwrap_or(&"").parse::<f64>().unwrap_or_default();
+        ee.sonstige = strings.get(2).unwrap_or(&"").parse::<f64>().unwrap_or_default();
         ee
     }
 
     pub fn to_string(&self) -> String {
-        format!("{}l{}", self.brutto, self.netto)
+        format!("{}l{}l{}", self.brutto, self.netto, self.sonstige)
     }
 }
 

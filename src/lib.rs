@@ -26,7 +26,8 @@ use crate::components::{
     needs::Needs,
     income::Income,
     result::Result,
-    notes::Notes
+    notes::Notes,
+    calc::Calculations
 };
 
 #[component]
@@ -140,6 +141,7 @@ pub fn LUSR() -> impl IntoView {
         <Needs e=e u25=u25 u18=u18 u14=u14 u6=u6 m=m kv=kv ku=ku sb=sb />
         <Income e=e k=k f=f set_f=set_f erwachsene_einkommen=erwachsene_einkommen set_ee=set_ee kinder_einkommen=kinder_einkommen set_ke=set_ke set_ae=set_ae />
         <Result sb=sb ae=ae />
+        <Calculations />
         <Notes />
     }
 }

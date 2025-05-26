@@ -6,7 +6,8 @@ pub struct KindEinkommen {
     pub brutto: f64,
     pub netto: f64,
     pub kindergeld: bool,
-    pub kinderzuschlag: f64
+    pub kinderzuschlag: f64,
+    pub sonstige: f64
 }
 
 impl KindEinkommen {
@@ -25,11 +26,12 @@ impl KindEinkommen {
         ke.netto = strings.get(2).unwrap_or(&"").parse::<f64>().unwrap_or_default();
         ke.kindergeld = strings.get(3).unwrap_or(&"").parse::<bool>().unwrap_or(true);
         ke.kinderzuschlag = strings.get(4).unwrap_or(&"").parse::<f64>().unwrap_or_default();
+        ke.sonstige = strings.get(5).unwrap_or(&"").parse::<f64>().unwrap_or_default();
         ke
     }
 
     pub fn to_string(&self) -> String {
-        format!("{}l{}l{}l{}l{}", self.id, self.brutto, self.netto, self.kindergeld, self.kinderzuschlag)
+        format!("{}l{}l{}l{}l{}l{}", self.id, self.brutto, self.netto, self.kindergeld, self.kinderzuschlag, self.sonstige)
     }
 }
 

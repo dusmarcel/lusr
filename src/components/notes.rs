@@ -24,7 +24,9 @@ pub fn Notes() -> impl IntoView {
                 geeigneterer Angebote in Gestalt von Bürgergeldrechnern und ähnlichen Dingen."
             </p>
             <p>
-                "Die Werbungskostenpauschale (§ 11b Abs. 2 SGB II wird von diesem Rechner stets vom Netto-Einkommen
+                "Die Werbungskostenpauschale ("
+                <a class="text-blue-600 hover:underline hover:text-violet-600" href="https://dejure.org/gesetze/SGB_II/11b.html">"§ 11b Abs. 2 SGB II"</a>
+                ") wird von diesem Rechner stets vom Netto-Einkommen
                 abgesetzt. Daher ist das anrechende Einkommen stets niedriger als das Netto-Einkommen. Es wäre ggf. möglich,
                 hier noch einen weiteren Schalter einzubauen, der es ermöglicht, auch die Anrechnung der Werbungskostenpauschale
                 zu ermöglichen (oder auch, hierfür einen anderen, frei wählbaren Betrag, anzugeben, sofern hierfür ein praktisches
