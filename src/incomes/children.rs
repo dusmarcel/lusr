@@ -24,7 +24,7 @@ impl KindEinkommen {
         ke.id = strings.get(0).unwrap_or(&"").parse::<usize>().unwrap_or_default();
         ke.brutto = strings.get(1).unwrap_or(&"").parse::<f64>().unwrap_or_default();
         ke.netto = strings.get(2).unwrap_or(&"").parse::<f64>().unwrap_or_default();
-        ke.kindergeld = strings.get(3).unwrap_or(&"").parse::<bool>().unwrap_or(true);
+        ke.kindergeld = strings.get(3).unwrap_or(&"true").parse::<bool>().unwrap_or_default();
         ke.kinderzuschlag = strings.get(4).unwrap_or(&"").parse::<f64>().unwrap_or_default();
         ke.sonstige = strings.get(5).unwrap_or(&"").parse::<f64>().unwrap_or_default();
         ke

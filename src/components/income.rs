@@ -327,8 +327,20 @@ pub fn Income(
                         <td class="px-1 text-center">
                             <input
                                 type="checkbox"
-                                checked=move || kind.kindergeld
-                                prop:checked=move || kind.kindergeld
+                                checked={
+                                    move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
+                                        kind.kindergeld
+                                    } else {
+                                        false
+                                    }
+                                }
+                                prop:checked={
+                                    move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
+                                        kind.kindergeld
+                                    } else {
+                                        false
+                                    }
+                                }
                                 on:change={move |e| {
                                     let mut nci = kinder_einkommen.get().clone();
                                     nci[kind.id].kindergeld = event_target_checked(&e);
