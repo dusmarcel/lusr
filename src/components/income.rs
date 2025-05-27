@@ -17,7 +17,7 @@ use crate::{
 pub fn Income(
     e: Memo<Option<u32>>,
     k: Memo<u32>,
-    mj_kinder: Memo<bool>,
+    mj_kinder: Memo<u32>,
     f: Memo<Option<bool>>,
     set_f: SignalSetter<Option<bool>>,
     erwachsene_einkommen: Memo<Vec<ErwachsenEinkommen>>,
@@ -63,13 +63,13 @@ pub fn Income(
 
     Effect::new( move |_| {
         let mut summe = 0.0;
-        summe += anr_einkommen(erwachsene_einkommen.get()[0].brutto, erwachsene_einkommen.get()[0].netto, f.get().unwrap_or(true), mj_kinder.get()) + erwachsene_einkommen.get()[0].sonstige;
+        summe += anr_einkommen(erwachsene_einkommen.get()[0].brutto, erwachsene_einkommen.get()[0].netto, f.get().unwrap_or(true), mj_kinder.get() > 0) + erwachsene_einkommen.get()[0].sonstige;
         if let Some(ee) = erwachsene_einkommen.get().get(1) {
-            summe += anr_einkommen(ee.brutto, ee.netto, f.get().unwrap_or(true), mj_kinder.get()) + ee.sonstige;
+            summe += anr_einkommen(ee.brutto, ee.netto, f.get().unwrap_or(true), mj_kinder.get() > 0) + ee.sonstige;
         }
         for kind in kinder_einkommen.get() {
             if kind.id < k.get() as usize {
-                summe += anr_einkommen(kind.brutto, kind.netto, f.get().unwrap_or(true), mj_kinder.get()) + kind.kinderzuschlag + kind.sonstige;
+                summe += anr_einkommen(kind.brutto, kind.netto, f.get().unwrap_or(true), mj_kinder.get() > 0) + kind.kinderzuschlag + kind.sonstige;
                 if kind.kindergeld { summe += KINDERGELD as f64 }
             }
         }
@@ -150,7 +150,7 @@ pub fn Income(
                             <input type="text" min="0.0" class="px-1 w-42 border-2 border-stone-400 rounded-lg text-right" value={ move || format_euro(erwachsene_einkommen.get()[0].sonstige) } prop:value={ move || format_euro(erwachsene_einkommen.get()[0].sonstige) } on:change=change_ee0_sonstige />
                         </td>
                         <td class="px-1 text-right">
-                            { move || format_euro(anr_einkommen(erwachsene_einkommen.get()[0].brutto, erwachsene_einkommen.get()[0].netto, f.get().unwrap_or(true), mj_kinder.get()) + erwachsene_einkommen.get()[0].sonstige) }
+                            { move || format_euro(anr_einkommen(erwachsene_einkommen.get()[0].brutto, erwachsene_einkommen.get()[0].netto, f.get().unwrap_or(true), mj_kinder.get() > 0) + erwachsene_einkommen.get()[0].sonstige) }
                         </td>
                     </tr>
                     <tr class={ move || if couple.get() { "visible" } else { "hidden" }}>
@@ -223,7 +223,7 @@ pub fn Income(
                         <td class="px-1 text-right">
                             {
                                 move || if let Some(ee) = erwachsene_einkommen.get().get(1) {
-                                    format_euro(anr_einkommen(ee.brutto, ee.netto, f.get().unwrap_or(true), mj_kinder.get()) + ee.sonstige)
+                                    format_euro(anr_einkommen(ee.brutto, ee.netto, f.get().unwrap_or(true), mj_kinder.get() > 0) + ee.sonstige)
                                 } else {
                                     format_euro(0.0)
                                 }
@@ -232,191 +232,195 @@ pub fn Income(
                     </tr>
                 </tbody>
             </table>
-            <h3 class={ move || if k.get() > 0 { "text-xl font-medium" } else { "hidden" }}>
-                "Einkommen der Kinder"
-            </h3>
-            <table class={ move || if k.get() > 0 { "visible" } else { "hidden" }}>
-                <thead>
-                    <tr>
-                        <th class="px-1 text-left">
-                            "Einkommen brutto"
-                        </th>
-                        <th class="px-1 text-left">
-                            "Einkommen netto"
-                        </th>
-                        <th class="px-1 text-left">
-                            "Kindergeld"
-                        </th>
-                        <th class="px-1 text-left">
-                            "Kinderzuschlag"
-                        </th>
-                        <th class="px-1 text-left">
-                            "Sonstige Einkünfte"
-                            <button popovertarget="sonstige-einkuenfte-kinder" class="px-1 ml-1 border-2 border-stone-400 rounded-lg">?</button>
-                            <div id="sonstige-einkuenfte-kinder" popover class="open:fixed open:left-1/2 open:top-1/4 open:-translate-x-1/2 open:max-w-lg open:w-full open:px-4 open:z-50 open:border-2 open:border-stone-400 open:rounded-lg open:bg-white open:shadow-lg open:text-left">
-                                <h4 class="text-xl font-medium">"Sonstige Einkünfte"</h4>
-                                <p class="font-normal">"In Betracht kommen beispielsweise Erziehungsgeld nach Landesrecht,
-                                Betreuungs-, Familien- und Elterngeld sowie Renten, Stipendien, Krankengeld und Ausbildungsbeihilfen wie bspw. BAföG oder auch ALG I."</p>
-                                <p class="font-normal">"Wohngeld, Unterhaltsvorschusszahlungen und Pflegegeld sind hier nicht anzugeben. Zwar sind diese Leistungen unschädlich,
-                                sie dürfen aber auch nicht als Einkommen angerechnet werden."</p>
-                            </div>  
-                        </th>
-                        <th class="px-1 text-left">
-                            "Anrechenbares Einkommen"
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                <For
-                    each=move || (data.get())()
-                    key=|kind| kind.id
-                    let:kind
-                >
-                    <tr class={ move || if k.get() as usize > kind.id { "visible" } else { "hidden" }}>
-                        <td class="px-1">
-                            <input
-                                type="text"
-                                min="0.0"
-                                class="px-1 w-42 border-2 border-stone-400 rounded-lg text-right" 
-                                value={
-                                    move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
-                                        format_euro(kind.brutto)
-                                    } else {
-                                        format_euro(0.0)
+            <Show
+                when= move || { k.get() > 0 }
+            >
+                <h3 class="text-xl">"Einkommen der Kinder"</h3>
+                <p>"Die Einkommen sollten nach dem Alter der Kinder sortiert angegegeben werden, beginnend mit dem ältesten Kind.
+                Anderenfalls kann es zu Ungenauigkeiten bei der Berechnung der Absetzbeträge kommen."</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="px-1 text-left">
+                                "Einkommen brutto"
+                            </th>
+                            <th class="px-1 text-left">
+                                "Einkommen netto"
+                            </th>
+                            <th class="px-1 text-left">
+                                "Kindergeld"
+                            </th>
+                            <th class="px-1 text-left">
+                                "Kinderzuschlag"
+                            </th>
+                            <th class="px-1 text-left">
+                                "Sonstige Einkünfte"
+                                <button popovertarget="sonstige-einkuenfte-kinder" class="px-1 ml-1 border-2 border-stone-400 rounded-lg">?</button>
+                                <div id="sonstige-einkuenfte-kinder" popover class="open:fixed open:left-1/2 open:top-1/4 open:-translate-x-1/2 open:max-w-lg open:w-full open:px-4 open:z-50 open:border-2 open:border-stone-400 open:rounded-lg open:bg-white open:shadow-lg open:text-left">
+                                    <h4 class="text-xl font-medium">"Sonstige Einkünfte"</h4>
+                                    <p class="font-normal">"In Betracht kommen beispielsweise Erziehungsgeld nach Landesrecht,
+                                    Betreuungs-, Familien- und Elterngeld sowie Renten, Stipendien, Krankengeld und Ausbildungsbeihilfen wie bspw. BAföG oder auch ALG I."</p>
+                                    <p class="font-normal">"Wohngeld, Unterhaltsvorschusszahlungen und Pflegegeld sind hier nicht anzugeben. Zwar sind diese Leistungen unschädlich,
+                                    sie dürfen aber auch nicht als Einkommen angerechnet werden."</p>
+                                </div>  
+                            </th>
+                            <th class="px-1 text-left">
+                                "Anrechenbares Einkommen"
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <For
+                            each=move || (data.get())()
+                            key=|kind| kind.id
+                            let:kind
+                        >
+                            <tr class={ move || if k.get() as usize > kind.id { "visible" } else { "hidden" }}>
+                                <td class="px-1">
+                                    <input
+                                        type="text"
+                                        min="0.0"
+                                        class="px-1 w-42 border-2 border-stone-400 rounded-lg text-right" 
+                                        value={
+                                            move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
+                                                format_euro(kind.brutto)
+                                            } else {
+                                                format_euro(0.0)
+                                            }
+                                        }
+                                        prop:value={
+                                            move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
+                                                format_euro(kind.brutto)
+                                            } else {
+                                                format_euro(0.0)
+                                            }
+                                        }
+                                        on:change={ move |e| { 
+                                            let mut nci = kinder_einkommen.get().clone();
+                                            nci[kind.id].brutto = event_target_value(&e).parse::<f64>().unwrap_or(0.0);
+                                            set_ke.set(Some(kinder_einkommen_to_string(&nci)));
+                                        }}
+                                    />
+                                </td>
+                                <td class="px-1">
+                                    <input
+                                        type="text"
+                                        min="0.0"
+                                        class="px-1 w-42 border-2 border-stone-400 rounded-lg text-right"
+                                        value={
+                                            move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
+                                                format_euro(kind.netto)
+                                            } else {
+                                                format_euro(0.0)
+                                            }
+                                        }
+                                        prop:value={
+                                            move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
+                                                format_euro(kind.netto)
+                                            } else {
+                                                format_euro(0.0)
+                                            }
+                                        }                                
+                                        on:change={move |e| { 
+                                            let mut nci = kinder_einkommen.get().clone();
+                                            nci[kind.id].netto = event_target_value(&e).parse::<f64>().unwrap_or(0.0);
+                                            set_ke.set(Some(kinder_einkommen_to_string(&nci)));
+                                        }}
+                                    />
+                                </td>
+                                <td class="px-1 text-center">
+                                    <input
+                                        type="checkbox"
+                                        checked={
+                                            move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
+                                                kind.kindergeld
+                                            } else {
+                                                false
+                                            }
+                                        }
+                                        prop:checked={
+                                            move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
+                                                kind.kindergeld
+                                            } else {
+                                                false
+                                            }
+                                        }
+                                        on:change={move |e| {
+                                            let mut nci = kinder_einkommen.get().clone();
+                                            nci[kind.id].kindergeld = event_target_checked(&e);
+                                            set_ke.set(Some(kinder_einkommen_to_string(&nci)));
+                                        }}
+                                    />
+                                    <span class="pl-1">{ format_euro(KINDERGELD as f64) }</span>
+                                </td>
+                                <td class="px-1">
+                                    <input
+                                        type="text"
+                                        min="0.0"
+                                        class="px-1 w-42 border-2 border-stone-400 rounded-lg text-right"
+                                        value={
+                                            move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
+                                                format_euro(kind.kinderzuschlag)
+                                            } else {
+                                                format_euro(0.0)
+                                            }
+                                        }
+                                        prop:value={
+                                            move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
+                                                format_euro(kind.kinderzuschlag)
+                                            } else {
+                                                format_euro(0.0)
+                                            }
+                                        }                                
+                                        on:change={move |e| { 
+                                            let mut nci = kinder_einkommen.get().clone();
+                                            nci[kind.id].kinderzuschlag = event_target_value(&e).parse::<f64>().unwrap_or(0.0);
+                                            set_ke.set(Some(kinder_einkommen_to_string(&nci)));
+                                        }}
+                                    />
+                                </td>
+                                <td class="px-1">
+                                    <input
+                                        type="text"
+                                        min="0.0"
+                                        class="px-1 w-42 border-2 border-stone-400 rounded-lg text-right"
+                                        value={
+                                            move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
+                                                format_euro(kind.sonstige)
+                                            } else {
+                                                format_euro(0.0)
+                                            }
+                                        }
+                                        prop:value={
+                                            move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
+                                                format_euro(kind.sonstige)
+                                            } else {
+                                                format_euro(0.0)
+                                            }
+                                        }                                
+                                        on:change={move |e| { 
+                                            let mut nci = kinder_einkommen.get().clone();
+                                            nci[kind.id].sonstige = event_target_value(&e).parse::<f64>().unwrap_or(0.0);
+                                            set_ke.set(Some(kinder_einkommen_to_string(&nci)));
+                                        }}
+                                    />
+                                </td>
+                                <td class="px-1 text-right">
+                                    {
+                                        move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
+                                            let mut e = anr_einkommen(kind.brutto, kind.netto, f.get().unwrap_or(true), mj_kinder.get() > 0) + kind.kinderzuschlag + kind.sonstige;
+                                            if kind.kindergeld { e += KINDERGELD as f64 }
+                                            format_euro(e)
+                                        } else {
+                                            format_euro(0.0)
+                                        }
                                     }
-                                }
-                                prop:value={
-                                    move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
-                                        format_euro(kind.brutto)
-                                    } else {
-                                        format_euro(0.0)
-                                    }
-                                }
-                                on:change={ move |e| { 
-                                    let mut nci = kinder_einkommen.get().clone();
-                                    nci[kind.id].brutto = event_target_value(&e).parse::<f64>().unwrap_or(0.0);
-                                    set_ke.set(Some(kinder_einkommen_to_string(&nci)));
-                                }}
-                            />
-                        </td>
-                        <td class="px-1">
-                            <input
-                                type="text"
-                                min="0.0"
-                                class="px-1 w-42 border-2 border-stone-400 rounded-lg text-right"
-                                value={
-                                    move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
-                                        format_euro(kind.netto)
-                                    } else {
-                                        format_euro(0.0)
-                                    }
-                                }
-                                prop:value={
-                                    move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
-                                        format_euro(kind.netto)
-                                    } else {
-                                        format_euro(0.0)
-                                    }
-                                }                                
-                                on:change={move |e| { 
-                                    let mut nci = kinder_einkommen.get().clone();
-                                    nci[kind.id].netto = event_target_value(&e).parse::<f64>().unwrap_or(0.0);
-                                    set_ke.set(Some(kinder_einkommen_to_string(&nci)));
-                                }}
-                            />
-                        </td>
-                        <td class="px-1 text-center">
-                            <input
-                                type="checkbox"
-                                checked={
-                                    move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
-                                        kind.kindergeld
-                                    } else {
-                                        false
-                                    }
-                                }
-                                prop:checked={
-                                    move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
-                                        kind.kindergeld
-                                    } else {
-                                        false
-                                    }
-                                }
-                                on:change={move |e| {
-                                    let mut nci = kinder_einkommen.get().clone();
-                                    nci[kind.id].kindergeld = event_target_checked(&e);
-                                    set_ke.set(Some(kinder_einkommen_to_string(&nci)));
-                                }}
-                            />
-                            <span class="pl-1">{ format_euro(KINDERGELD as f64) }</span>
-                        </td>
-                        <td class="px-1">
-                            <input
-                                type="text"
-                                min="0.0"
-                                class="px-1 w-42 border-2 border-stone-400 rounded-lg text-right"
-                                value={
-                                    move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
-                                        format_euro(kind.kinderzuschlag)
-                                    } else {
-                                        format_euro(0.0)
-                                    }
-                                }
-                                prop:value={
-                                    move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
-                                        format_euro(kind.kinderzuschlag)
-                                    } else {
-                                        format_euro(0.0)
-                                    }
-                                }                                
-                                on:change={move |e| { 
-                                    let mut nci = kinder_einkommen.get().clone();
-                                    nci[kind.id].kinderzuschlag = event_target_value(&e).parse::<f64>().unwrap_or(0.0);
-                                    set_ke.set(Some(kinder_einkommen_to_string(&nci)));
-                                }}
-                            />
-                        </td>
-                        <td class="px-1">
-                            <input
-                                type="text"
-                                min="0.0"
-                                class="px-1 w-42 border-2 border-stone-400 rounded-lg text-right"
-                                value={
-                                    move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
-                                        format_euro(kind.sonstige)
-                                    } else {
-                                        format_euro(0.0)
-                                    }
-                                }
-                                prop:value={
-                                    move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
-                                        format_euro(kind.sonstige)
-                                    } else {
-                                        format_euro(0.0)
-                                    }
-                                }                                
-                                on:change={move |e| { 
-                                    let mut nci = kinder_einkommen.get().clone();
-                                    nci[kind.id].sonstige = event_target_value(&e).parse::<f64>().unwrap_or(0.0);
-                                    set_ke.set(Some(kinder_einkommen_to_string(&nci)));
-                                }}
-                            />
-                        </td>
-                        <td class="px-1 text-right">
-                            {
-                                move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
-                                    let mut e = anr_einkommen(kind.brutto, kind.netto, f.get().unwrap_or(true), mj_kinder.get()) + kind.kinderzuschlag + kind.sonstige;
-                                    if kind.kindergeld { e += KINDERGELD as f64 }
-                                    format_euro(e)
-                                } else {
-                                    format_euro(0.0)
-                                }
-                            }
-                        </td>
-                    </tr>
-                </For>
-                </tbody>
-            </table>
+                                </td>
+                            </tr>
+                        </For>
+                    </tbody>
+                </table>
+            </Show>
         </div>
     }
 }
