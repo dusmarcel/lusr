@@ -408,7 +408,9 @@ pub fn Income(
                                 <td class="px-1 text-right">
                                     {
                                         move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
-                                            let mut e = anr_einkommen(kind.brutto, kind.netto, f.get().unwrap_or(true), mj_kinder.get() > 0) + kind.kinderzuschlag + kind.sonstige;
+                                            let mut e = anr_einkommen(kind.brutto, kind.netto, f.get().unwrap_or(true), mj_kinder.get() > 0);
+                                            if kind.id + 1 == k.get() as usize && mj_kinder.get() == 1 { e = anr_einkommen(kind.brutto, kind.netto, f.get().unwrap_or(true), false) };
+                                            e += kind.kinderzuschlag + kind.sonstige;
                                             if kind.kindergeld { e += KINDERGELD as f64 }
                                             format_euro(e)
                                         } else {
