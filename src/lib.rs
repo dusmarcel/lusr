@@ -126,9 +126,6 @@ pub fn LUSR() -> impl IntoView {
         while lke.len() < k as usize {
             lke.push(KindEinkommen::new(lke.len()));
         }
-        // while lke.len() > k as usize {
-        //     lke.pop();
-        // }
         set_ke.set(Some(kinder_einkommen_to_string(&lke)));
         k
     });

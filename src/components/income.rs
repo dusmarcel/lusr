@@ -141,13 +141,13 @@ pub fn Income(
                 <tbody>
                     <tr>                
                         <td class="px-1">
-                            <input type="text" min="0.0" class="px-1 border-2 border-stone-400 rounded-lg text-right" value={ move || format_euro(erwachsene_einkommen.get()[0].brutto) } prop:value={ move || format_euro(erwachsene_einkommen.get()[0].brutto) } on:change=change_ee0_brutto />
+                            <input type="text" min="0.0" class="px-1 w-42 border-2 border-stone-400 rounded-lg text-right" value={ move || format_euro(erwachsene_einkommen.get()[0].brutto) } prop:value={ move || format_euro(erwachsene_einkommen.get()[0].brutto) } on:change=change_ee0_brutto />
                         </td>
                         <td class="px-1">
-                            <input type="text" min="0.0" class="px-1 border-2 border-stone-400 rounded-lg text-right" value={ move || format_euro(erwachsene_einkommen.get()[0].netto) } prop:value={ move || format_euro(erwachsene_einkommen.get()[0].netto) } on:change=change_ee0_netto />
+                            <input type="text" min="0.0" class="px-1 w-42 border-2 border-stone-400 rounded-lg text-right" value={ move || format_euro(erwachsene_einkommen.get()[0].netto) } prop:value={ move || format_euro(erwachsene_einkommen.get()[0].netto) } on:change=change_ee0_netto />
                         </td>
                         <td class="px-1">
-                            <input type="text" min="0.0" class="px-1 border-2 border-stone-400 rounded-lg text-right" value={ move || format_euro(erwachsene_einkommen.get()[0].sonstige) } prop:value={ move || format_euro(erwachsene_einkommen.get()[0].sonstige) } on:change=change_ee0_sonstige />
+                            <input type="text" min="0.0" class="px-1 w-42 border-2 border-stone-400 rounded-lg text-right" value={ move || format_euro(erwachsene_einkommen.get()[0].sonstige) } prop:value={ move || format_euro(erwachsene_einkommen.get()[0].sonstige) } on:change=change_ee0_sonstige />
                         </td>
                         <td class="px-1 text-right">
                             { move || format_euro(anr_einkommen(erwachsene_einkommen.get()[0].brutto, erwachsene_einkommen.get()[0].netto, f.get().unwrap_or(true), mj_kinder.get()) + erwachsene_einkommen.get()[0].sonstige) }
@@ -158,7 +158,7 @@ pub fn Income(
                             <input
                                 type="text"
                                 min="0.0"
-                                class="px-1 border-2 border-stone-400 rounded-lg text-right"
+                                class="px-1 w-42 border-2 border-stone-400 rounded-lg text-right"
                                 value={
                                     move || if let Some(ee) = erwachsene_einkommen.get().get(1) {
                                         format_euro(ee.brutto)
@@ -180,7 +180,7 @@ pub fn Income(
                             <input 
                                 type="text"
                                 min="0.0"
-                                class="px-1 border-2 border-stone-400 rounded-lg text-right"
+                                class="px-1 w-42 border-2 border-stone-400 rounded-lg text-right"
                                 value={
                                     move || if let Some(ee) = erwachsene_einkommen.get().get(1) {
                                         format_euro(ee.netto)
@@ -202,7 +202,7 @@ pub fn Income(
                             <input 
                                 type="text"
                                 min="0.0"
-                                class="px-1 border-2 border-stone-400 rounded-lg text-right"
+                                class="px-1 w-42 border-2 border-stone-400 rounded-lg text-right"
                                 value={
                                     move || if let Some(ee) = erwachsene_einkommen.get().get(1) {
                                         format_euro(ee.sonstige)
@@ -277,7 +277,7 @@ pub fn Income(
                             <input
                                 type="text"
                                 min="0.0"
-                                class="px-1 border-2 border-stone-400 rounded-lg text-right" 
+                                class="px-1 w-42 border-2 border-stone-400 rounded-lg text-right" 
                                 value={
                                     move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
                                         format_euro(kind.brutto)
@@ -303,7 +303,7 @@ pub fn Income(
                             <input
                                 type="text"
                                 min="0.0"
-                                class="px-1 border-2 border-stone-400 rounded-lg text-right"
+                                class="px-1 w-42 border-2 border-stone-400 rounded-lg text-right"
                                 value={
                                     move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
                                         format_euro(kind.netto)
@@ -348,12 +348,13 @@ pub fn Income(
                                     set_ke.set(Some(kinder_einkommen_to_string(&nci)));
                                 }}
                             />
+                            <span class="pl-1">{ format_euro(KINDERGELD as f64) }</span>
                         </td>
                         <td class="px-1">
                             <input
                                 type="text"
                                 min="0.0"
-                                class="px-1 border-2 border-stone-400 rounded-lg text-right"
+                                class="px-1 w-42 border-2 border-stone-400 rounded-lg text-right"
                                 value={
                                     move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
                                         format_euro(kind.kinderzuschlag)
@@ -379,7 +380,7 @@ pub fn Income(
                             <input
                                 type="text"
                                 min="0.0"
-                                class="px-1 border-2 border-stone-400 rounded-lg text-right"
+                                class="px-1 w-42 border-2 border-stone-400 rounded-lg text-right"
                                 value={
                                     move || if let Some(kind) = kinder_einkommen.get().get(kind.id) {
                                         format_euro(kind.sonstige)
