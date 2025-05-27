@@ -9,6 +9,7 @@ use crate::{
 
 #[component]
 pub fn Calculations(
+    f: Memo<Option<bool>>,
     mj_kinder: Memo<bool>,
     erwachsene_einkommen: Memo<Vec<ErwachsenEinkommen>>,
     kinder_einkommen: Memo<Vec<KindEinkommen>>
@@ -47,10 +48,10 @@ pub fn Calculations(
                     <tr class="text-right">
                         <td>{ move || format_euro(erwachsene_einkommen.get()[0].netto) }</td>
                         <td>{ move || format_euro(0.0 - werbungskostenpauschale(erwachsene_einkommen.get()[0].brutto)) }</td>
-                        <td>{ move || format_euro(0.0 - absetzbetrag1(erwachsene_einkommen.get()[0].brutto)) }</td>
-                        <td>{ move || format_euro(0.0 - absetzbetrag2(erwachsene_einkommen.get()[0].brutto)) }</td>
-                        <td>{ move || format_euro(0.0 - absetzbetrag3(erwachsene_einkommen.get()[0].brutto, mj_kinder.get())) }</td>
-                        <td>{ move || format_euro(anr_einkommen(erwachsene_einkommen.get()[0].brutto, erwachsene_einkommen.get()[0].netto, mj_kinder.get())) }</td>
+                        <td>{ move || format_euro(0.0 - absetzbetrag1(erwachsene_einkommen.get()[0].brutto, f.get().unwrap_or(true))) }</td>
+                        <td>{ move || format_euro(0.0 - absetzbetrag2(erwachsene_einkommen.get()[0].brutto, f.get().unwrap_or(true))) }</td>
+                        <td>{ move || format_euro(0.0 - absetzbetrag3(erwachsene_einkommen.get()[0].brutto, f.get().unwrap_or(true), mj_kinder.get())) }</td>
+                        <td>{ move || format_euro(anr_einkommen(erwachsene_einkommen.get()[0].brutto, erwachsene_einkommen.get()[0].netto, f.get().unwrap_or(true), mj_kinder.get())) }</td>
                     </tr>
                 </tbody>
             </table>
