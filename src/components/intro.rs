@@ -14,7 +14,7 @@ pub fn Intro() -> impl IntoView {
                 Hinweise unten auf dieser Seite."
             </p>
             <p>
-                <span class="underline text-red-500">"!!!Achtung!!!"</span>" Dieser Rechner ist aktuell noch eine Baustelle. Von einem produktiven Einsatz in der Beratung wird derzeit noch ausdrücklich abgeraten. Er wird derzeit ausschließlich zu Testzwecken veröffentlicht, mit der Bitte um Feedback und Hinweisen zu Fehlern, Verbesseungsvorschlägen etc. gerne per E-Mail an "<a class="text-blue-600 hover:underline hover:text-violet-600" href="mailto:marcel@aufentha.lt">"marcel@aufentha.lt"</a>"."
+                <span class="underline text-red-500">"!!!Achtung!!!"</span>" Dieser Rechner ist aktuell noch eine Baustelle. Von einem produktiven Einsatz in der Beratung wird derzeit noch ausdrücklich abgeraten. Er wird derzeit ausschließlich zu Testzwecken veröffentlicht, mit der Bitte um Feedback und Hinweisen zu Fehlern, Verbesserungsvorschlägen etc. gerne per E-Mail an "<a class="text-blue-600 hover:underline hover:text-violet-600" href="mailto:marcel@aufentha.lt">"marcel@aufentha.lt"</a>"."
             </p>
         </div>
     }
