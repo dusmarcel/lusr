@@ -53,7 +53,7 @@ pub fn Community(
                 </select>
             </p>
             <p>
-                <label for="u25">"Wie viele Erwachsene unter 25 Jahren, die im elterlichen Haushalt laben?"</label>
+                <label for="u25">"Wie viele Erwachsene unter 25 Jahren, die im elterlichen Haushalt leben?"</label>
             </p>
             <p>
                 <input type="number" id="u25" min="0" value=move || u25.get().unwrap_or(defaults::U25) class="px-1 border-2 border-stone-400 rounded-lg text-right" on:change=change_u25 />
