@@ -4,6 +4,8 @@ Lebensunterhaltssicherungsrechner
 
 ## About
 
+Dieser Rechner soll die *aufenthaltsrechtliche* Beratung zur Frage, ob der Lebensunterhalt im Sinne der [§§ 2 Abs. 3, 5 Abs. 1 Nr. 1 AufenthG](https://dejure.org/gesetze/AufenthG/5.html) gesichert werden kann, unterstützen. Dabei kann und soll er die Beratung bestenfalls begleiten, aber keinesfalls ersetzen, da es, je nach konkretem Fall, eine Vielzahl von Besonderheiten zu beachten geben kann, die hier ummöglich alle abgebildet werden können.
+
 ## Installation
 
 Der Rechner kann mit Docker oder mit Trunk installiert werden. In beiden Fällen ist es erforderlich, das Repository zunächst zu klonen:
