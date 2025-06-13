@@ -6,7 +6,6 @@ edition = "2024"
 [dependencies]
 console_error_panic_hook = "0.1.7"
 leptos = { version = "0.8.2", features = ["csr"] }
-leptos-use = { git="https://github.com/Synphonyte/leptos-use" }
-# leptos-use = "0.15.7"
+leptos-use = "0.16.0"
 leptos_router = "0.8.2"
 reactive_stores = "0.2.2"

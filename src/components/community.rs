@@ -48,7 +48,7 @@ pub fn Community(
             </p>
             <p>
                 <select class="p-1 border-2 border-stone-400 rounded-lg" aria-label="Auswahl der Verfahrensart" id="adults" on:change=change_erwachsene>
-                    <option value="1" selected=move || e.get().unwrap_or(defaults::ERWACHSENE) == 1>"Alleinstehende*r/alleinerziehende*r Erwachsene*r / Volljährige*r mit mindejähriger*m Partner*in"</option>
+                    <option value="1" selected=move || e.get().unwrap_or(defaults::ERWACHSENE) == 1>"Alleinstehende*r/alleinerziehende*r Erwachsene*r / Volljährige*r mit minderjähriger*m Partner*in"</option>
                     <option value="2" selected=move || e.get().unwrap_or(defaults::ERWACHSENE) == 2>"Zwei volljährige Partner*innen (verheiratet, unverheiratet oder Lebenspartner*innen)"</option>
                 </select>
             </p>
