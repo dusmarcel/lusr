@@ -11,7 +11,7 @@ pub fn Notes() -> impl IntoView {
             </h2>
             <p>
                 "Dieser Rechner soll die "<span class="font-semibold">"aufenthaltsrechtliche Beratung"</span>" zur Frage, ob der Lebensunterhalt im Sinne der "
-                <a class="text-blue-600 hover:underline hover:text-violet-600" href="https://dejure.org/gesetze/AufenthG/5.html">
+                <a class="text-blue-800 hover:underline hover:text-blue-900" href="https://dejure.org/gesetze/AufenthG/5.html">
                 "§§ 2 Abs. 3, 5 Abs. 1 Nr. 1 AufenthG"</a>" gesichert werden kann, unterstützen. Dabei kann und soll er die Beratung
                 bestenfalls begleiten, aber keinesfalls ersetzen, da es, je nach konkretem Fall, eine Vielzahl von Besonderheiten zu beachten
                 geben kann, die hier ummöglich alle abgebildet werden können."
@@ -25,7 +25,7 @@ pub fn Notes() -> impl IntoView {
             </p>
             <p>
                 "Die Werbungskostenpauschale ("
-                <a class="text-blue-600 hover:underline hover:text-violet-600" href="https://dejure.org/gesetze/SGB_II/11b.html">"§ 11b Abs. 2 SGB II"</a>
+                <a class="text-blue-800 hover:underline hover:text-blue-900" href="https://dejure.org/gesetze/SGB_II/11b.html">"§ 11b Abs. 2 SGB II"</a>
                 ") wird von diesem Rechner stets vom Netto-Einkommen
                 abgesetzt. Daher ist das anrechende Einkommen stets niedriger als das Netto-Einkommen. Es wäre ggf. möglich,
                 hier noch einen weiteren Schalter einzubauen, der es ermöglicht, auch die Anrechnung der Werbungskostenpauschale
@@ -43,13 +43,13 @@ pub fn Notes() -> impl IntoView {
             </p>
             <p>
                 "Der Rechner ist zudem auch als Freie Software unter den Lizenzen Apache, Version 2.0, und MIT
-                veröffentlicht. Du kannst dir die Software also auch aus dem "<a class="text-blue-600 hover:underline hover:text-violet-600" href="https://github.com/dusmarcel/lusr">
+                veröffentlicht. Du kannst dir die Software also auch aus dem "<a class="text-blue-800 hover:underline hover:text-blue-900" href="https://github.com/dusmarcel/lusr">
                 "Repository"</a>" herunterladen und sie dann ganz auf einem Gerät deiner Wahl ausführen.
                 In diesem Falle hast du mit meinem Server gar nichts mehr zu tun, und die Notwendigkeit, Daten an meinen
                 Server zu übertragen, entfällt ganz."
             </p>
             <p>
-                "Und schließlich geht es hier noch zu meinem „"<a class="text-blue-600 hover:underline hover:text-violet-600" href="https://aufentha.lt/index.php/impressum/">"Impressum"</a>"“."
+                "Und schließlich geht es hier noch zu meinem „"<a class="text-blue-800 hover:underline hover:text-blue-900" href="https://aufentha.lt/index.php/impressum/">"Impressum"</a>"“."
             </p>
         </div>
     }
