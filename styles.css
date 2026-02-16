@@ -7,16 +7,16 @@
 
 :root {
     color-scheme: only light;
-    --bg-top: #eef4ff;
-    --bg-bottom: #d0e3ff;
+    --bg-top: #fff2fb;
+    --bg-bottom: #ffd7f0;
     --surface: rgba(255, 255, 255, 0.9);
     --surface-strong: #ffffff;
-    --surface-border: #7ea2db;
+    --surface-border: #d68abb;
     --text: #0f172a;
     --text-muted: #334155;
-    --heading: #0f3572;
-    --accent: #005fcc;
-    --accent-strong: #003f8d;
+    --heading: #7a1d57;
+    --accent: #c2378c;
+    --accent-strong: #922a6b;
     --ok: #0b7f5a;
     --warn: #a45300;
     --bad: #b01749;
@@ -40,8 +40,8 @@ body {
     line-height: 1.7;
     color: var(--text);
     background:
-        radial-gradient(circle at 8% 0%, rgba(94, 155, 245, 0.2) 0%, rgba(94, 155, 245, 0) 36%),
-        radial-gradient(circle at 90% 18%, rgba(122, 174, 252, 0.26) 0%, rgba(122, 174, 252, 0) 36%),
+        radial-gradient(circle at 8% 0%, rgba(245, 94, 181, 0.22) 0%, rgba(245, 94, 181, 0) 36%),
+        radial-gradient(circle at 90% 18%, rgba(252, 136, 210, 0.26) 0%, rgba(252, 136, 210, 0) 36%),
         linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
 }
 
@@ -108,27 +108,27 @@ a:hover {
 }
 
 .container:nth-of-type(6n + 1) {
-    border-left: 6px solid #0d63cd;
+    border-left: 6px solid #c2378c;
 }
 
 .container:nth-of-type(6n + 2) {
-    border-left: 6px solid #0d63cd;
+    border-left: 6px solid #c2378c;
 }
 
 .container:nth-of-type(6n + 3) {
-    border-left: 6px solid #0d63cd;
+    border-left: 6px solid #c2378c;
 }
 
 .container:nth-of-type(6n + 4) {
-    border-left: 6px solid #0d63cd;
+    border-left: 6px solid #c2378c;
 }
 
 .container:nth-of-type(6n + 5) {
-    border-left: 6px solid #0d63cd;
+    border-left: 6px solid #c2378c;
 }
 
 .container:nth-of-type(6n) {
-    border-left: 6px solid #0d63cd;
+    border-left: 6px solid #c2378c;
 }
 
 table {
@@ -150,8 +150,8 @@ td {
 }
 
 th {
-    background: linear-gradient(180deg, #dceaff, #cfe1ff);
-    color: #173a72;
+    background: linear-gradient(180deg, #ffd9f0, #ffc3e8);
+    color: #691d4c;
     font-weight: 700;
     text-wrap: pretty;
 }
@@ -172,7 +172,7 @@ input[type="number"],
 select {
     min-height: 2.05rem;
     padding: 0.28rem 0.58rem;
-    border: 2px solid #7d99cb;
+    border: 2px solid #c98ab0;
     border-radius: 0.65rem;
     background: #fff;
     color: var(--text);
@@ -188,15 +188,15 @@ input[type="checkbox"] {
 button {
     min-height: 1.95rem;
     padding: 0.2rem 0.52rem;
-    border: 2px solid #6d8fc6;
+    border: 2px solid #c272a7;
     border-radius: 0.65rem;
-    background: #edf4ff;
-    color: #193a6e;
+    background: #ffdff1;
+    color: #691d4c;
     font-weight: 700;
 }
 
 button:hover {
-    background: #dce9ff;
+    background: #ffcbe9;
 }
 
 :focus-visible {
